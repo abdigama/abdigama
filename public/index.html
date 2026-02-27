@@ -51,19 +51,15 @@
       <div class="steps">
         <div class="step active" data-step="1">
           <div class="step-number">1</div>
-          <span>Data Pribadi</span>
+          <span>Pribadi & Keluarga</span>
         </div>
         <div class="step" data-step="2">
           <div class="step-number">2</div>
-          <span>Pendidikan</span>
+          <span>Riwayat & Ref</span>
         </div>
         <div class="step" data-step="3">
           <div class="step-number">3</div>
-          <span>Pengalaman</span>
-        </div>
-        <div class="step" data-step="4">
-          <div class="step-number">4</div>
-          <span>Posisi & Dokumen</span>
+          <span>Dokumen & Lainnya</span>
         </div>
       </div>
     </div>
@@ -81,8 +77,8 @@
             </svg>
           </div>
           <div>
-            <h2>Data Pribadi</h2>
-            <p>Informasi dasar tentang diri Anda</p>
+            <h2>Data Pribadi & Keluarga</h2>
+            <p>Informasi dasar tentang diri dan keluarga Anda</p>
           </div>
         </div>
 
@@ -193,9 +189,65 @@
             <span class="error-message" id="error-email"></span>
           </div>
         </div>
+
+        <h3
+          style="margin-top:32px; margin-bottom:16px; font-size:1.1rem; color:var(--text); border-bottom:1px solid var(--border); padding-bottom:8px; text-transform:uppercase;">
+          Data Keluarga</h3>
+        <div id="keluargaContainer">
+          <div class="card-entry" data-index="0">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <h3 style="font-size:1rem; color:var(--text);">Anggota Keluarga #1</h3>
+              <button type="button" class="btn-remove-entry" onclick="removeEntry('keluarga', this)"
+                style="display:none">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18" />
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                </svg>
+              </button>
+            </div>
+            <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+              <div class="form-group full-width">
+                <label>Nama</label>
+                <input type="text" name="keluarga_nama_0" placeholder="Nama anggota keluarga">
+              </div>
+              <div class="form-group">
+                <label>Hubungan</label>
+                <input type="text" name="keluarga_hubungan_0" placeholder="Orang tua/suami/istri/anak">
+              </div>
+              <div class="form-group">
+                <label>Usia</label>
+                <input type="number" name="keluarga_usia_0" placeholder="Contoh: 45">
+              </div>
+              <div class="form-group full-width">
+                <label>Pekerjaan</label>
+                <input type="text" name="keluarga_pekerjaan_0" placeholder="Pekerjaan saat ini">
+              </div>
+              <div class="form-group full-width" style="margin-top:8px;">
+                <label style="margin-bottom:8px; display:block;">Dibawah dukungan Anda?</label>
+                <div style="display:flex; gap:16px;">
+                  <label
+                    style="display:flex; align-items:center; gap:4px; font-weight:normal; text-transform:none;"><input
+                      type="radio" name="keluarga_dukungan_0" value="Ya"> Ya</label>
+                  <label
+                    style="display:flex; align-items:center; gap:4px; font-weight:normal; text-transform:none;"><input
+                      type="radio" name="keluarga_dukungan_0" value="Tidak" checked> Tidak</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn-add-entry" onclick="addKeluarga()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          Tambah Anggota Keluarga
+        </button>
       </div>
 
-      <!-- Step 2: Pendidikan -->
+      <!-- Step 2: Riwayat & Referensi -->
       <div class="form-step" data-step="2">
         <div class="section-header">
           <div class="section-icon">
@@ -205,11 +257,14 @@
             </svg>
           </div>
           <div>
-            <h2>Riwayat Pendidikan</h2>
-            <p>Tambahkan riwayat pendidikan Anda (minimal pendidikan terakhir)</p>
+            <h2>Riwayat & Referensi</h2>
+            <p>Pendidikan, pengalaman kerja, dan referensi Anda</p>
           </div>
         </div>
 
+        <h3
+          style="margin-bottom:16px; font-size:1.1rem; color:var(--text); border-bottom:1px solid var(--border); padding-bottom:8px; text-transform:uppercase;">
+          Riwayat Pendidikan</h3>
         <div id="pendidikanContainer">
           <div class="education-entry card-entry" data-index="0">
             <div class="entry-header">
@@ -262,23 +317,10 @@
           </svg>
           Tambah Pendidikan
         </button>
-      </div>
 
-      <!-- Step 3: Pengalaman Kerja -->
-      <div class="form-step" data-step="3">
-        <div class="section-header">
-          <div class="section-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-            </svg>
-          </div>
-          <div>
-            <h2>Pengalaman Kerja</h2>
-            <p>Tambahkan pengalaman kerja Anda (kosongkan jika belum pernah bekerja)</p>
-          </div>
-        </div>
-
+        <h3
+          style="margin-top:32px; margin-bottom:16px; font-size:1.1rem; color:var(--text); border-bottom:1px solid var(--border); padding-bottom:8px; text-transform:uppercase;">
+          Pengalaman Kerja</h3>
         <div id="pengalamanContainer">
           <div class="experience-entry card-entry" data-index="0">
             <div class="entry-header">
@@ -324,25 +366,75 @@
           </svg>
           Tambah Pengalaman
         </button>
+
+        <h3
+          style="margin-top:32px; margin-bottom:16px; font-size:1.1rem; color:var(--text); border-bottom:1px solid var(--border); padding-bottom:8px; text-transform:uppercase;">
+          Referensi</h3>
+        <p style="font-size:0.9rem; color:var(--text-light); margin-bottom:16px;">Daftar dua (2) orang yang tahu
+          performa kerja Anda dan rincian pribadi Anda. Jangan daftar anggota keluarga Anda.</p>
+
+        <div class="form-grid">
+          <!-- Referensi 1 -->
+          <div class="card-entry" style="margin-bottom:0;">
+            <h4 style="text-align:center; margin-bottom:16px; font-size:1rem; color:var(--primary);">REFERENSI 1</h4>
+            <div class="form-group full-width">
+              <label>Nama :</label>
+              <input type="text" id="ref1_nama" name="ref1_nama" placeholder="Nama referensi pertama">
+            </div>
+            <div class="form-group full-width">
+              <label>Nama & Alamat Karyawan :</label>
+              <textarea id="ref1_alamat" name="ref1_alamat" rows="2"
+                placeholder="Alamat atau perusahaan referensi"></textarea>
+            </div>
+            <div class="form-group full-width">
+              <label>Jabatan :</label>
+              <input type="text" id="ref1_jabatan" name="ref1_jabatan" placeholder="Jabatan referensi">
+            </div>
+            <div class="form-group full-width">
+              <label>Tel :</label>
+              <input type="text" id="ref1_tel" name="ref1_tel" placeholder="Nomor telepon aktif">
+            </div>
+          </div>
+
+          <!-- Referensi 2 -->
+          <div class="card-entry" style="margin-bottom:0;">
+            <h4 style="text-align:center; margin-bottom:16px; font-size:1rem; color:var(--primary);">REFERENSI 2</h4>
+            <div class="form-group full-width">
+              <label>Nama :</label>
+              <input type="text" id="ref2_nama" name="ref2_nama" placeholder="Nama referensi kedua">
+            </div>
+            <div class="form-group full-width">
+              <label>Nama & Alamat Karyawan :</label>
+              <textarea id="ref2_alamat" name="ref2_alamat" rows="2"
+                placeholder="Alamat atau perusahaan referensi"></textarea>
+            </div>
+            <div class="form-group full-width">
+              <label>Jabatan :</label>
+              <input type="text" id="ref2_jabatan" name="ref2_jabatan" placeholder="Jabatan referensi">
+            </div>
+            <div class="form-group full-width">
+              <label>Tel :</label>
+              <input type="text" id="ref2_tel" name="ref2_tel" placeholder="Nomor telepon aktif">
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- Step 4: Posisi & Dokumen -->
-      <div class="form-step" data-step="4">
+      <!-- Step 3: Informasi Tambahan -->
+      <div class="form-step" data-step="3">
         <div class="section-header">
           <div class="section-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-              <polyline points="14 2 14 8 20 8" />
-              <line x1="16" y1="13" x2="8" y2="13" />
-              <line x1="16" y1="17" x2="8" y2="17" />
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
             </svg>
           </div>
           <div>
-            <h2>Posisi & Dokumen</h2>
-            <p>Informasi posisi yang dilamar dan upload dokumen pendukung</p>
+            <h2>Informasi Tambahan & Dokumen</h2>
+            <p>Pertanyaan tambahan, posisi lamaran, dan upload dokumen</p>
           </div>
         </div>
 
+        <!-- Posisi Lamaran -->
         <div class="form-grid">
           <div class="form-group">
             <label for="posisi_dilamar">Posisi yang Dilamar <span class="required">*</span></label>
@@ -362,6 +454,55 @@
           </div>
         </div>
 
+        <div class="form-grid" style="grid-template-columns: 1fr;">
+          <div class="form-group">
+            <label for="info_posisi">1. Posisi saat ini yang dijabat di perusahaan lain/institusi atau benefit yang
+              didapatkan, mohon penjelasannya :</label>
+            <textarea id="info_posisi" name="info_posisi" rows="4"
+              placeholder="Fasilitas Kesehatan&#10;Perumahan&#10;Transportasi&#10;Tiket Pulang Kampung ke Medan"></textarea>
+          </div>
+          <div class="form-group">
+            <label style="margin-bottom:8px; display:block;">2. Apakah Anda sedang bangkrut atau dinyatakan
+              pailit?</label>
+            <div style="display:flex; gap:16px;">
+              <label style="display:flex; align-items:center; gap:4px; font-weight:normal; text-transform:none;"><input
+                  type="radio" name="info_pailit" value="Ya" required> Ya</label>
+              <label style="display:flex; align-items:center; gap:4px; font-weight:normal; text-transform:none;"><input
+                  type="radio" name="info_pailit" value="Tidak" checked> Tidak</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label style="margin-bottom:8px; display:block;">3. Apakah Anda memiliki kerabat/teman yang bekerja di PT.
+              Weha Agro Sejahtera?</label>
+            <div style="display:flex; gap:16px;">
+              <label style="display:flex; align-items:center; gap:4px; font-weight:normal; text-transform:none;"><input
+                  type="radio" name="info_kerabat" value="Ya" required> Ya</label>
+              <label style="display:flex; align-items:center; gap:4px; font-weight:normal; text-transform:none;"><input
+                  type="radio" name="info_kerabat" value="Tidak" checked> Tidak</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label style="margin-bottom:8px; display:block;">4. Apakah Anda pernah dihukum karena masalah
+              pidana?</label>
+            <div style="display:flex; gap:16px;">
+              <label style="display:flex; align-items:center; gap:4px; font-weight:normal; text-transform:none;"><input
+                  type="radio" name="info_pidana" value="Ya" required> Ya</label>
+              <label style="display:flex; align-items:center; gap:4px; font-weight:normal; text-transform:none;"><input
+                  type="radio" name="info_pidana" value="Tidak" checked> Tidak</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label style="margin-bottom:8px; display:block;">5. Apakah Anda mempunyai SIM?</label>
+            <div style="display:flex; gap:16px;">
+              <label style="display:flex; align-items:center; gap:4px; font-weight:normal; text-transform:none;"><input
+                  type="radio" name="info_sim" value="Ya" required> Ya</label>
+              <label style="display:flex; align-items:center; gap:4px; font-weight:normal; text-transform:none;"><input
+                  type="radio" name="info_sim" value="Tidak" checked> Tidak</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Move Upload Dokumen logic here -->
         <div class="upload-section">
           <h3>Upload Dokumen</h3>
           <p class="upload-info">Format yang didukung: JPG, PNG, PDF, DOC, DOCX (Maks. 5MB per file)</p>
@@ -390,9 +531,9 @@
                   <line x1="2" y1="10" x2="22" y2="10" />
                 </svg>
               </div>
-              <p class="upload-label">Scan KTP</p>
-              <p class="upload-sublabel">KTP yang masih berlaku</p>
-              <input type="file" id="ktp_file" name="ktp_file" accept="image/*,.pdf"
+              <p class="upload-label">Scan/Foto KTP</p>
+              <p class="upload-sublabel">KTP bagian depan yang jelas</p>
+              <input type="file" id="ktp_file" name="ktp_file" accept=".jpg,.jpeg,.png,.pdf"
                 onchange="handleFileSelect(this, 'upload-ktp')">
               <label for="ktp_file" class="upload-btn">Pilih File</label>
               <p class="file-name" id="file-name-ktp_file"></p>
@@ -403,10 +544,13 @@
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                   <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <polyline points="10 9 9 9 8 9" />
                 </svg>
               </div>
-              <p class="upload-label">CV / Resume</p>
-              <p class="upload-sublabel">Curriculum Vitae terbaru</p>
+              <p class="upload-label">Curriculum Vitae</p>
+              <p class="upload-sublabel">CV / Resume terbaru</p>
               <input type="file" id="cv_file" name="cv_file" accept=".pdf,.doc,.docx"
                 onchange="handleFileSelect(this, 'upload-cv')">
               <label for="cv_file" class="upload-btn">Pilih File</label>
@@ -414,7 +558,6 @@
             </div>
           </div>
         </div>
-
         <!-- Persetujuan -->
         <div class="agreement-section">
           <label class="checkbox-container">
@@ -429,60 +572,61 @@
           <span class="error-message" id="error-persetujuan"></span>
         </div>
       </div>
+  </div>
 
-      <!-- Navigation Buttons -->
-      <div class="form-navigation">
-        <button type="button" class="btn btn-prev" id="btnPrev" onclick="prevStep()" style="display:none">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
-          Sebelumnya
-        </button>
-        <button type="button" class="btn btn-next" id="btnNext" onclick="nextStep()">
-          Selanjutnya
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="5" y1="12" x2="19" y2="12" />
-            <polyline points="12 5 19 12 12 19" />
-          </svg>
-        </button>
-        <button type="submit" class="btn btn-submit" id="btnSubmit" style="display:none">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 2L11 13" />
-            <path d="M22 2l-7 20-4-9-9-4 20-7z" />
-          </svg>
-          Kirim Lamaran
-        </button>
+  <!-- Navigation Buttons -->
+  <div class="form-navigation">
+    <button type="button" class="btn btn-prev" id="btnPrev" onclick="prevStep()" style="display:none">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12" />
+        <polyline points="12 19 5 12 12 5" />
+      </svg>
+      Sebelumnya
+    </button>
+    <button type="button" class="btn btn-next" id="btnNext" onclick="nextStep()">
+      Selanjutnya
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="5" y1="12" x2="19" y2="12" />
+        <polyline points="12 5 19 12 12 19" />
+      </svg>
+    </button>
+    <button type="submit" class="btn btn-submit" id="btnSubmit" style="display:none">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 2L11 13" />
+        <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+      </svg>
+      Kirim Lamaran
+    </button>
+  </div>
+  </form>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-content">
+      <div class="success-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+          <polyline points="22 4 12 14.01 9 11.01" />
+        </svg>
       </div>
-    </form>
-
-    <!-- Success Modal -->
-    <div class="modal-overlay" id="successModal">
-      <div class="modal-content">
-        <div class="success-icon">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-            <polyline points="22 4 12 14.01 9 11.01" />
-          </svg>
-        </div>
-        <h2>Berhasil Terkirim!</h2>
-        <p>Formulir lamaran Anda telah berhasil dikirim. Kami akan menghubungi Anda melalui email atau telepon untuk
-          proses selanjutnya.</p>
-        <p class="ref-number">No. Referensi: <strong id="refNumber"></strong></p>
-        <button class="btn btn-next" onclick="resetForm()">Kirim Lamaran Lain</button>
-      </div>
+      <h2>Berhasil Terkirim!</h2>
+      <p>Formulir lamaran Anda telah berhasil dikirim. Kami akan menghubungi Anda melalui email atau telepon untuk
+        proses selanjutnya.</p>
+      <p class="ref-number">No. Referensi: <strong id="refNumber"></strong></p>
+      <button class="btn btn-next" onclick="resetForm()">Kirim Lamaran Lain</button>
     </div>
+  </div>
 
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-      <div class="spinner"></div>
-      <p>Mengirim formulir...</p>
-    </div>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <p>Mengirim formulir...</p>
+  </div>
 
-    <!-- Footer -->
-    <footer class="form-footer">
-      <p>&copy; 2026 — Formulir Aplikasi Calon Karyawan Baru</p>
-    </footer>
+  <!-- Footer -->
+  <footer class="form-footer">
+    <p>&copy; 2026 — Formulir Aplikasi Calon Karyawan Baru</p>
+  </footer>
   </div>
 
   <script src="main.js"></script>

@@ -32,15 +32,24 @@ const db = {
   insert(record) {
     const data = readDb();
     const id = data.nextId++;
+
+    // Generate custom APP-ID/MM/YYYY format
+    const now = new Date();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const sequence = String(id).padStart(3, '0');
+    const app_id = `APP-${sequence}/${month}/${year}`;
+
     const entry = {
       id,
+      app_id,
       ...record,
-      created_at: new Date().toISOString(),
+      created_at: now.toISOString(),
       status: 'baru'
     };
     data.applications.push(entry);
     writeDb(data);
-    return { lastInsertRowid: id };
+    return { lastInsertRowid: id, app_id };
   },
 
   // Get all applications with optional filters

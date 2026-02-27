@@ -3,6 +3,7 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const session = require('express-session');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -38,11 +39,74 @@ const upload = multer({
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+
+// Session Configuration
+app.use(session({
+    secret: 'chrono-kuiper-super-secret-key', // In production, use environment variable
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: false, // Set to true if using HTTPS
+        maxAge: 1000 * 60 * 60 * 24 // 24 hours
+    }
+}));
+
+// Authentication Middleware
+const requireAuth = (req, res, next) => {
+    if (req.session && req.session.isAuthenticated) {
+        next();
+    } else {
+        if (req.path.startsWith('/api/')) {
+            res.status(401).json({ success: false, message: 'Unauthorized. Please login.' });
+        } else {
+            res.redirect('/login.html');
+        }
+    }
+};
+
+// Intercept admin.html to require authentication BEFORE static middleware
+app.get('/admin.html', requireAuth, (req, res, next) => {
+    next();
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(uploadsDir));
 
 // Initialize database
 const db = require('./db');
+
+// ===================== AUTHENTICATION ROUTES =====================
+
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+
+    // Default admin credentials (hardcoded for now as requested)
+    if (username === 'admin' && password === 'admin123') {
+        req.session.isAuthenticated = true;
+        req.session.user = username;
+        res.json({ success: true, message: 'Login berhasil' });
+    } else {
+        res.status(401).json({ success: false, message: 'Username atau password salah' });
+    }
+});
+
+app.post('/api/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ success: false, message: 'Gagal logout' });
+        }
+        res.clearCookie('connect.sid');
+        res.json({ success: true, message: 'Logout berhasil' });
+    });
+});
+
+app.get('/api/check-auth', (req, res) => {
+    if (req.session && req.session.isAuthenticated) {
+        res.json({ authenticated: true });
+    } else {
+        res.json({ authenticated: false });
+    }
+});
 
 // ===================== API ROUTES =====================
 
@@ -77,6 +141,20 @@ app.post('/api/applications', upload.fields([
             posisi_dilamar: data.posisi_dilamar || '',
             gaji_diharapkan: data.gaji_diharapkan || '',
             tanggal_mulai: data.tanggal_mulai || '',
+            info_posisi: data.info_posisi || '',
+            info_pailit: data.info_pailit || 'Tidak',
+            info_kerabat: data.info_kerabat || 'Tidak',
+            info_pidana: data.info_pidana || 'Tidak',
+            info_sim: data.info_sim || 'Tidak',
+            ref1_nama: data.ref1_nama || '',
+            ref1_alamat: data.ref1_alamat || '',
+            ref1_jabatan: data.ref1_jabatan || '',
+            ref1_tel: data.ref1_tel || '',
+            ref2_nama: data.ref2_nama || '',
+            ref2_alamat: data.ref2_alamat || '',
+            ref2_jabatan: data.ref2_jabatan || '',
+            ref2_tel: data.ref2_tel || '',
+            keluarga: data.keluarga || '[]',
             foto: files.foto ? files.foto[0].filename : '',
             ktp_file: files.ktp_file ? files.ktp_file[0].filename : '',
             cv_file: files.cv_file ? files.cv_file[0].filename : '',
@@ -88,6 +166,7 @@ app.post('/api/applications', upload.fields([
         res.json({
             success: true,
             message: 'Formulir berhasil dikirim!',
+            app_id: result.app_id,
             id: result.lastInsertRowid
         });
     } catch (error) {
@@ -99,8 +178,8 @@ app.post('/api/applications', upload.fields([
     }
 });
 
-// Get all applications (admin)
-app.get('/api/applications', (req, res) => {
+// Get all applications (Protected)
+app.get('/api/applications', requireAuth, (req, res) => {
     try {
         const { search, status, page = 1, limit = 20 } = req.query;
         const result = db.getAll({ search, status, page: parseInt(page), limit: parseInt(limit) });
@@ -135,8 +214,8 @@ app.get('/api/applications/:id', (req, res) => {
     }
 });
 
-// Update application status
-app.patch('/api/applications/:id/status', (req, res) => {
+// Update application status (Protected)
+app.patch('/api/applications/:id/status', requireAuth, (req, res) => {
     try {
         const { status } = req.body;
         const validStatuses = ['baru', 'review', 'interview', 'diterima', 'ditolak'];
@@ -156,8 +235,8 @@ app.patch('/api/applications/:id/status', (req, res) => {
     }
 });
 
-// Delete application
-app.delete('/api/applications/:id', (req, res) => {
+// Delete application (Protected)
+app.delete('/api/applications/:id', requireAuth, (req, res) => {
     try {
         const deleted = db.delete(req.params.id);
         if (deleted) {
@@ -178,24 +257,28 @@ app.delete('/api/applications/:id', (req, res) => {
     }
 });
 
-// Export to CSV
-app.get('/api/export/csv', (req, res) => {
+// Export to CSV (Protected)
+app.get('/api/export/csv', requireAuth, (req, res) => {
     try {
         const applications = db.getAllForExport();
 
         const headers = [
-            'ID', 'Nama Lengkap', 'Tempat Lahir', 'Tanggal Lahir', 'Usia', 'Jenis Kelamin',
+            'App ID', 'ID', 'Nama Lengkap', 'Tempat Lahir', 'Tanggal Lahir', 'Usia', 'Jenis Kelamin',
             'Agama', 'Status Pernikahan', 'Jumlah Anak', 'NIK',
             'Tinggi Badan', 'Berat Badan', 'Alamat KTP', 'Alamat Domisili',
             'No HP', 'Email',
             'Posisi Dilamar', 'Gaji Diharapkan', 'Tanggal Mulai',
-            'Status', 'Tanggal Daftar'
+            'Info Posisi', 'Bangkrut/Pailit', 'Kerabat di PT', 'Riwayat Pidana', 'Punya SIM',
+            'Ref1 Nama', 'Ref1 Alamat', 'Ref1 Jabatan', 'Ref1 Tel',
+            'Ref2 Nama', 'Ref2 Alamat', 'Ref2 Jabatan', 'Ref2 Tel',
+            'Data Keluarga JSON', 'Status', 'Tanggal Daftar'
         ];
 
         let csv = '\uFEFF' + headers.join(',') + '\n'; // BOM for Excel UTF-8
 
         applications.forEach(app => {
             const row = [
+                `"${app.app_id || '-'}"`,
                 app.id,
                 `"${(app.nama_lengkap || '').replace(/"/g, '""')}"`,
                 `"${(app.tempat_lahir || '').replace(/"/g, '""')}"`,
@@ -215,6 +298,20 @@ app.get('/api/export/csv', (req, res) => {
                 `"${(app.posisi_dilamar || '').replace(/"/g, '""')}"`,
                 app.gaji_diharapkan || '',
                 app.tanggal_mulai || '',
+                `"${(app.info_posisi || '').replace(/"/g, '""')}"`,
+                app.info_pailit || 'Tidak',
+                app.info_kerabat || 'Tidak',
+                app.info_pidana || 'Tidak',
+                app.info_sim || 'Tidak',
+                `"${(app.ref1_nama || '').replace(/"/g, '""')}"`,
+                `"${(app.ref1_alamat || '').replace(/"/g, '""')}"`,
+                `"${(app.ref1_jabatan || '').replace(/"/g, '""')}"`,
+                app.ref1_tel || '',
+                `"${(app.ref2_nama || '').replace(/"/g, '""')}"`,
+                `"${(app.ref2_alamat || '').replace(/"/g, '""')}"`,
+                `"${(app.ref2_jabatan || '').replace(/"/g, '""')}"`,
+                app.ref2_tel || '',
+                `"${(app.keluarga || '').replace(/"/g, '""')}"`,
                 app.status || '',
                 app.created_at || ''
             ];

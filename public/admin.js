@@ -53,6 +53,11 @@ async function loadData() {
         });
 
         const response = await fetch(`/api/applications?${params}`);
+        if (response.status === 401) {
+            window.location.href = '/login.html';
+            return;
+        }
+
         const result = await response.json();
 
         if (result.success) {
@@ -75,6 +80,8 @@ function updateStats(data, total) {
 async function fetchStats() {
     try {
         const res = await fetch('/api/applications?limit=1000');
+        if (res.status === 401) return; // Silent fail, loadData will handle redirect
+
         const result = await res.json();
         if (result.success) {
             const data = result.data;
@@ -97,7 +104,7 @@ function renderRecentTable(data) {
 
     tbody.innerHTML = data.map((app, i) => `
     <tr>
-      <td>${i + 1}</td>
+      <td>${escHtml(app.app_id || '-')}</td>
       <td><strong style="color:var(--text-primary)">${escHtml(app.nama_lengkap)}</strong></td>
       <td>${escHtml(app.posisi_dilamar || '-')}</td>
       <td>${escHtml(app.email || '-')}</td>
@@ -120,7 +127,7 @@ function renderFullTable(data, pagination) {
 
     tbody.innerHTML = data.map((app, i) => `
     <tr>
-      <td>${startIdx + i + 1}</td>
+      <td>${escHtml(app.app_id || '-')}</td>
       <td><strong style="color:var(--text-primary)">${escHtml(app.nama_lengkap)}</strong></td>
       <td>${escHtml(app.posisi_dilamar || '-')}</td>
       <td>${escHtml(app.no_hp || '-')}</td>
@@ -178,6 +185,11 @@ function debounceSearch() {
 async function viewDetail(id) {
     try {
         const response = await fetch(`/api/applications/${id}`);
+        if (response.status === 401) {
+            window.location.href = '/login.html';
+            return;
+        }
+
         const result = await response.json();
 
         if (!result.success) {
@@ -193,12 +205,15 @@ async function viewDetail(id) {
 
         let pendidikan = [];
         let pengalaman = [];
+        let keluarga = [];
         try { pendidikan = JSON.parse(app.pendidikan || '[]'); } catch (e) { }
         try { pengalaman = JSON.parse(app.pengalaman || '[]'); } catch (e) { }
+        try { keluarga = JSON.parse(app.keluarga || '[]'); } catch (e) { }
 
         let html = `
       <div class="detail-section">
         <h3>Data Pribadi</h3>
+        <p style="color:var(--text-secondary); margin-bottom:16px;"><strong>ID Lamaran:</strong> ${escHtml(app.app_id || '-')}</p>
         <div class="detail-grid">
           <div class="detail-item"><span class="detail-label">Nama Lengkap</span><span class="detail-value">${escHtml(app.nama_lengkap)}</span></div>
           <div class="detail-item"><span class="detail-label">NIK</span><span class="detail-value">${escHtml(app.nik || '-')}</span></div>
@@ -247,6 +262,59 @@ async function viewDetail(id) {
             });
             html += `</div>`;
         }
+
+        html += `
+      <div class="detail-section">
+        <h3>Keluarga & Referensi</h3>
+        <div style="margin-bottom:16px;">
+          <h4 style="font-size:0.9rem; color:var(--text-light); text-transform:uppercase; margin-bottom:8px;">Referensi 1</h4>
+          <div class="detail-grid" style="padding:12px; background:rgba(255,255,255,0.02); border-radius:8px;">
+            <div class="detail-item"><span class="detail-label">Nama</span><span class="detail-value">${escHtml(app.ref1_nama || '-')}</span></div>
+            <div class="detail-item"><span class="detail-label">Telepon</span><span class="detail-value">${escHtml(app.ref1_tel || '-')}</span></div>
+            <div class="detail-item"><span class="detail-label">Jabatan</span><span class="detail-value">${escHtml(app.ref1_jabatan || '-')}</span></div>
+            <div class="detail-item"><span class="detail-label">Nama & Alamat Karyawan</span><span class="detail-value" style="white-space:pre-wrap;">${escHtml(app.ref1_alamat || '-')}</span></div>
+          </div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <h4 style="font-size:0.9rem; color:var(--text-light); text-transform:uppercase; margin-bottom:8px;">Referensi 2</h4>
+          <div class="detail-grid" style="padding:12px; background:rgba(255,255,255,0.02); border-radius:8px;">
+            <div class="detail-item"><span class="detail-label">Nama</span><span class="detail-value">${escHtml(app.ref2_nama || '-')}</span></div>
+            <div class="detail-item"><span class="detail-label">Telepon</span><span class="detail-value">${escHtml(app.ref2_tel || '-')}</span></div>
+            <div class="detail-item"><span class="detail-label">Jabatan</span><span class="detail-value">${escHtml(app.ref2_jabatan || '-')}</span></div>
+            <div class="detail-item"><span class="detail-label">Nama & Alamat Karyawan</span><span class="detail-value" style="white-space:pre-wrap;">${escHtml(app.ref2_alamat || '-')}</span></div>
+          </div>
+        </div>
+      </div>
+    `;
+
+        if (keluarga.length > 0) {
+            html += `<div class="detail-section"><h3>Data Keluarga</h3>`;
+            keluarga.forEach((k, i) => {
+                html += `
+          <div class="detail-grid" style="margin-bottom:12px; padding:12px; background:rgba(255,255,255,0.02); border-radius:8px;">
+            <div class="detail-item"><span class="detail-label">Nama</span><span class="detail-value">${escHtml(k.nama || '-')}</span></div>
+            <div class="detail-item"><span class="detail-label">Hubungan</span><span class="detail-value">${escHtml(k.hubungan || '-')}</span></div>
+            <div class="detail-item"><span class="detail-label">Usia</span><span class="detail-value">${escHtml(k.usia || '-')}</span></div>
+            <div class="detail-item"><span class="detail-label">Pekerjaan</span><span class="detail-value">${escHtml(k.pekerjaan || '-')}</span></div>
+            <div class="detail-item full"><span class="detail-label">Dibawah Dukungan Anda?</span><span class="detail-value">${escHtml(k.dukungan || 'Tidak')}</span></div>
+          </div>
+        `;
+            });
+            html += `</div>`;
+        }
+
+        html += `
+      <div class="detail-section">
+        <h3>Informasi Tambahan</h3>
+        <div class="detail-grid">
+          <div class="detail-item full"><span class="detail-label">Benefit / Posisi Lain</span><span class="detail-value" style="white-space:pre-wrap;">${escHtml(app.info_posisi || '-')}</span></div>
+          <div class="detail-item"><span class="detail-label">Bangkrut/Pailit</span><span class="detail-value">${escHtml(app.info_pailit || '-')}</span></div>
+          <div class="detail-item"><span class="detail-label">Kerabat di PT</span><span class="detail-value">${escHtml(app.info_kerabat || '-')}</span></div>
+          <div class="detail-item"><span class="detail-label">Riwayat Pidana</span><span class="detail-value">${escHtml(app.info_pidana || '-')}</span></div>
+          <div class="detail-item"><span class="detail-label">Memiliki SIM</span><span class="detail-value">${escHtml(app.info_sim || '-')}</span></div>
+        </div>
+      </div>
+    `;
 
         html += `
       <div class="detail-section">
@@ -315,6 +383,11 @@ async function updateStatusFromModal() {
             body: JSON.stringify({ status })
         });
 
+        if (response.status === 401) {
+            window.location.href = '/login.html';
+            return;
+        }
+
         const result = await response.json();
         if (result.success) {
             loadData(); // Refresh data
@@ -337,6 +410,11 @@ async function deleteFromModal() {
             method: 'DELETE'
         });
 
+        if (response.status === 401) {
+            window.location.href = '/login.html';
+            return;
+        }
+
         const result = await response.json();
         if (result.success) {
             closeDetailModal();
@@ -350,9 +428,45 @@ async function deleteFromModal() {
     }
 }
 
-// ===================== Export =====================
+// ===================== API & Export =====================
 function exportCSV() {
     window.location.href = '/api/export/csv';
+}
+
+async function logout() {
+    try {
+        await fetch('/api/logout', { method: 'POST' });
+        window.location.href = '/login.html';
+    } catch (e) {
+        window.location.href = '/login.html';
+    }
+}
+
+function printPDF() {
+    if (!currentDetailId) return;
+
+    const element = document.getElementById('detailBody');
+    // Hide empty fields styling if necessary or just use default
+    const opt = {
+        margin: 0.5,
+        filename: `Pelamar_${currentDetailId}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    // Store original max-height/overflow to prevent cutting content
+    const originalMaxHeight = element.style.maxHeight;
+    const originalOverflow = element.style.overflow;
+
+    element.style.maxHeight = 'none';
+    element.style.overflow = 'visible';
+
+    html2pdf().set(opt).from(element).save().then(() => {
+        // Restore styles
+        element.style.maxHeight = originalMaxHeight;
+        element.style.overflow = originalOverflow;
+    });
 }
 
 // ===================== Helpers =====================
