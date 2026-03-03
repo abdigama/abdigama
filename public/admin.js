@@ -957,6 +957,14 @@ async function printPDF() {
         <!-- PAGE 3 -->
         <div class="pdf-page" style="padding:10px;">
           <table class="form-table" style="table-layout: fixed; width: 100%; margin-top:20px; border:2px solid #000;">
+            <colgroup>
+              <col style="width: 50%;">
+              <col style="width: 12%;">
+              <col style="width: 8%;">
+              <col style="width: 18%;">
+              <col style="width: 6%;">
+              <col style="width: 6%;">
+            </colgroup>
             <tr>
               <th colspan="6" style="text-align:center; background-color:#ccffff; color:#000; font-size:10px; font-weight:bold; padding:4px; border-bottom:1px solid #000;">DATA KELUARGA</th>
             </tr>
@@ -965,12 +973,12 @@ async function printPDF() {
               <th colspan="2" style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Dibawah dukungan anda</th>
             </tr>
             <tr>
-              <th width="50%" style="text-align:center; font-size:9px; padding:4px; border-bottom:1px solid #000;">Nama</th>
-              <th width="12%" style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Hubungan</th>
-              <th width="8%" style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Usia</th>
-              <th width="18%" style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Pekerjaan</th>
-              <th width="6%" style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Ya</th>
-              <th width="6%" style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Tidak</th>
+              <th style="text-align:center; font-size:9px; padding:4px; border-bottom:1px solid #000;">Nama</th>
+              <th style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Hubungan</th>
+              <th style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Usia</th>
+              <th style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Pekerjaan</th>
+              <th style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Ya</th>
+              <th style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Tidak</th>
             </tr>
             ${[0, 1, 2, 3, 4, 5, 6].map(i => {
       const k = kel[i] || {};
