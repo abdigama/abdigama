@@ -956,31 +956,32 @@ async function printPDF() {
 
         <!-- PAGE 3 -->
         <div class="pdf-page" style="padding:10px;">
-          <!-- DATA KELUARGA -->
-          <div class="section-title" style="text-align:center; background-color:#ccffff; color:#000; border:2px solid #000; border-bottom:1px solid #000; margin-bottom:0; font-size:10px; font-weight:bold;">DATA KELUARGA</div>
-          <table class="form-table" style="table-layout: fixed; width: 100%; margin-top:0; border:2px solid #000; border-top:none;">
+          <table class="form-table" style="table-layout: fixed; width: 100%; margin-top:20px; border:2px solid #000;">
             <tr>
-              <th colspan="4" style="text-align:center; font-size:9px; padding:4px;">Daftar Keluarga (orang tua/suami/istri/anak)</th>
-              <th colspan="2" style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000;">Dibawah dukungan Anda</th>
+              <th colspan="6" style="text-align:center; background-color:#ccffff; color:#000; font-size:10px; font-weight:bold; padding:4px; border-bottom:1px solid #000;">DATA KELUARGA</th>
             </tr>
             <tr>
-              <th width="30%" style="text-align:center; font-size:9px; padding:4px;">Nama</th>
-              <th width="20%" style="text-align:center; font-size:9px; padding:4px;">Hubungan</th>
-              <th width="10%" style="text-align:center; font-size:9px; padding:4px;">Usia</th>
-              <th width="20%" style="text-align:center; font-size:9px; padding:4px;">Pekerjaan</th>
-              <th width="10%" style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000;">Ya</th>
-              <th width="10%" style="text-align:center; font-size:9px; padding:4px;">Tidak</th>
+              <th colspan="4" style="text-align:center; font-size:9px; padding:4px; border-bottom:1px solid #000;">Daftar Keluarga (Orang Tua / Suami / Istri / Anak)</th>
+              <th colspan="2" style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Dibawah dukungan anda</th>
+            </tr>
+            <tr>
+              <th width="50%" style="text-align:center; font-size:9px; padding:4px; border-bottom:1px solid #000;">Nama</th>
+              <th width="12%" style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Hubungan</th>
+              <th width="8%" style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Usia</th>
+              <th width="18%" style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Pekerjaan</th>
+              <th width="6%" style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Ya</th>
+              <th width="6%" style="text-align:center; font-size:9px; padding:4px; border-left:1px solid #000; border-bottom:1px solid #000;">Tidak</th>
             </tr>
             ${[0, 1, 2, 3, 4, 5, 6].map(i => {
       const k = kel[i] || {};
       return `
                   <tr>
-                    <td class="val" style="height:18px; padding:2px 4px; font-size:9px;">${k.nama || ''}</td>
-                    <td class="val text-center" style="padding:2px 4px; font-size:9px;">${k.hubungan || ''}</td>
-                    <td class="val text-center" style="padding:2px 4px; font-size:9px;">${k.usia ? k.usia + ' thn' : ''}</td>
-                    <td class="val text-center" style="padding:2px 4px; font-size:9px;">${k.pekerjaan || ''}</td>
-                    <td class="val text-center" style="padding:2px 4px; font-size:9px; border-left:1px solid #000;">${k.dukungan === 'Ya' ? 'V' : ''}</td>
-                    <td class="val text-center" style="padding:2px 4px; font-size:9px;">${k.dukungan === 'Tidak' ? 'V' : ''}</td>
+                    <td class="val" style="height:18px; padding:2px 4px; font-size:9px; border-right:1px solid #000; border-bottom:1px solid #000;">${k.nama || ''}</td>
+                    <td class="val text-center" style="padding:2px 4px; font-size:9px; border-right:1px solid #000; border-bottom:1px solid #000;">${k.hubungan || ''}</td>
+                    <td class="val text-center" style="padding:2px 4px; font-size:9px; border-right:1px solid #000; border-bottom:1px solid #000;">${k.usia ? k.usia + ' thn' : ''}</td>
+                    <td class="val text-center" style="padding:2px 4px; font-size:9px; border-right:1px solid #000; border-bottom:1px solid #000;">${k.pekerjaan || ''}</td>
+                    <td class="val text-center" style="padding:2px 4px; font-size:9px; border-right:1px solid #000; border-bottom:1px solid #000;">${k.dukungan === 'Ya' ? 'V' : ''}</td>
+                    <td class="val text-center" style="padding:2px 4px; font-size:9px; border-bottom:1px solid #000;">${k.dukungan === 'Tidak' ? 'V' : ''}</td>
                   </tr>
                 `;
     }).join('')}
