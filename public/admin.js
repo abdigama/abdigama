@@ -1216,11 +1216,17 @@ async function printPDF() {
 
     document.body.appendChild(wrapper);
 
+    // Save original title
+    const originalTitle = document.title;
+    // Set temporary title for PDF filename
+    document.title = `${app.app_id || 'APP'}_${app.nama_lengkap || 'Pelamar'}`;
+
     // Call native window print immediately
     setTimeout(() => {
       window.print();
       // Clean up after print dialog closes
       setTimeout(() => {
+        document.title = originalTitle; // Restore original title
         document.body.removeChild(wrapper);
       }, 500);
     }, 200);
