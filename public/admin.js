@@ -1151,6 +1151,7 @@ async function printPDF() {
         <!-- PAGE 4 (HRD ONLY) -->
         <div class="pdf-page" style="height:100%; box-sizing:border-box; padding-bottom:1px;">
            <div style="border:2px solid #000; height:100%; box-sizing:border-box; display:flex; flex-direction:column;">
+             <div style="height:35px; border-bottom:2px solid #000;"></div>
              <div class="section-title" style="text-align:center; background-color:#ccffff; color:#000; border-bottom:2px solid #000; margin-bottom:0; padding:8px 0; font-size:10px; font-weight:bold;">HANYA UNTUK HRD</div>
              
              <div style="padding:20px 30px; font-size:9px; flex:1;">
@@ -1187,7 +1188,7 @@ async function printPDF() {
                 <div style="margin-bottom:40px; margin-left:50px;">DIREKOMENDASIKAN OLEH :</div>
                 <div style="width:150px; border-bottom:1px solid #000; margin-bottom:30px;"></div>
                 
-                <div style="display:flex; align-items:flex-end; margin-bottom:50px;">
+                <div style="display:flex; align-items:flex-end; margin-bottom:500px;">
                    <div style="width:30px;">TGL :</div>
                    <div style="width:120px; border-bottom:1px solid #000;"></div>
                 </div>
