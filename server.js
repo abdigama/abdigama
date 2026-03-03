@@ -64,8 +64,11 @@ const requireAuth = (req, res, next) => {
     }
 };
 
-// Intercept admin.html to require authentication BEFORE static middleware
+// Intercept admin.html and edit.html to require authentication BEFORE static middleware
 app.get('/admin.html', requireAuth, (req, res, next) => {
+    next();
+});
+app.get('/edit.html', requireAuth, (req, res, next) => {
     next();
 });
 
@@ -258,6 +261,36 @@ app.patch('/api/applications/:id/status', requireAuth, (req, res) => {
     } catch (error) {
         console.error('Error updating status:', error);
         res.status(500).json({ success: false, message: 'Gagal memperbarui status.' });
+    }
+});
+
+// Update entire application (Protected)
+app.put('/api/applications/:id', requireAuth, upload.fields([
+    { name: 'foto', maxCount: 1 },
+    { name: 'ktp_file', maxCount: 1 },
+    { name: 'cv_file', maxCount: 1 }
+]), (req, res) => {
+    try {
+        const data = req.body;
+        const files = req.files || {};
+
+        // Build update record
+        const record = { ...data };
+
+        // Handle optional files
+        if (files.foto) record.foto = files.foto[0].filename;
+        if (files.ktp_file) record.ktp_file = files.ktp_file[0].filename;
+        if (files.cv_file) record.cv_file = files.cv_file[0].filename;
+
+        const updated = db.update(req.params.id, record);
+        if (updated) {
+            res.json({ success: true, message: 'Data berhasil diperbarui.' });
+        } else {
+            res.status(404).json({ success: false, message: 'Data tidak ditemukan.' });
+        }
+    } catch (error) {
+        console.error('Error updating application:', error);
+        res.status(500).json({ success: false, message: 'Gagal memperbarui data.' });
     }
 });
 

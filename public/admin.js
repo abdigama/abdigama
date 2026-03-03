@@ -988,8 +988,8 @@ async function printPDF() {
                     <td class="val text-center" style="padding:2px 4px; font-size:9px; border-right:1px solid #000; border-bottom:1px solid #000;">${k.hubungan || ''}</td>
                     <td class="val text-center" style="padding:2px 4px; font-size:9px; border-right:1px solid #000; border-bottom:1px solid #000;">${k.usia ? k.usia + ' thn' : ''}</td>
                     <td class="val text-center" style="padding:2px 4px; font-size:9px; border-right:1px solid #000; border-bottom:1px solid #000;">${k.pekerjaan || ''}</td>
-                    <td class="val text-center" style="padding:2px 4px; font-size:9px; border-right:1px solid #000; border-bottom:1px solid #000;">${k.dukungan === 'Ya' ? 'V' : ''}</td>
-                    <td class="val text-center" style="padding:2px 4px; font-size:9px; border-bottom:1px solid #000;">${k.dukungan === 'Tidak' ? 'V' : ''}</td>
+                    <td class="val text-center" style="padding:2px 4px; font-size:9px; border-right:1px solid #000; border-bottom:1px solid #000;">${k.dukungan === 'Ya' ? '✓' : ''}</td>
+                    <td class="val text-center" style="padding:2px 4px; font-size:9px; border-bottom:1px solid #000;">${k.dukungan === 'Tidak' ? '✓' : ''}</td>
                   </tr>
                 `;
     }).join('')}
@@ -1127,10 +1127,10 @@ async function printPDF() {
                 BERSAMA INI, SAYA MENYATAKAN BAHWA SEMUA INFORMASI DI ATAS ADALAH AKURAT DAN SAYA MENGERTI BAHWA APABILA DENGAN SENGAJA MENAHAN INFORMASI ATAU MEMBUAT LAPORAN YANG SALAH DALAM FORMULIR INI MAKA DAPAT MENJADI DASAR PEMBERHENTIAN SAYA DARI PERUSAHAAN DAN MEMBUAT HUBUNGAN KERJA INI MENJADI BATAL DAN TIDAK BERLAKU.
 
                 <div style="display:flex; justify-content:space-between; margin-top:50px; padding:0 20px;">
-                  <div style="display:flex; align-items:flex-end;">
+                    <div style="display:flex; align-items:flex-end;">
                      <div style="width:90px;">TANDA TANGAN PELAMAR :</div>
                      <div style="width:150px; border-bottom:1px solid #000; text-align:center; position:relative; min-height:20px;">
-                       <span class="val" style="font-family:'Dancing Script', cursive; font-size:20px; color:#1e3a8a; position:absolute; bottom:2px; left:0; right:0;">${app.tanda_tangan || ''}</span>
+                       <span class="val" style="font-family:'Plus Jakarta Sans', sans-serif; font-size:12px; color:#000; position:absolute; bottom:2px; left:0; right:0;">${app.tanda_tangan || ''}</span>
                      </div>
                   </div>
                   <div style="display:flex; align-items:flex-end;">

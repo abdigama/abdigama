@@ -107,6 +107,30 @@ const db = {
     return false;
   },
 
+  // Update complete application data
+  update(id, record) {
+    const data = readDb();
+    const index = data.applications.findIndex(a => a.id === parseInt(id));
+    if (index !== -1) {
+      // Preserve system fields
+      const existing = data.applications[index];
+      data.applications[index] = {
+        ...existing,
+        ...record,
+        id: existing.id,
+        app_id: existing.app_id,
+        created_at: existing.created_at,
+        status: existing.status,
+        foto: record.foto || existing.foto,
+        ktp_file: record.ktp_file || existing.ktp_file,
+        cv_file: record.cv_file || existing.cv_file
+      };
+      writeDb(data);
+      return data.applications[index];
+    }
+    return null;
+  },
+
   // Delete application
   delete(id) {
     const data = readDb();
