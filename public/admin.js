@@ -1149,9 +1149,8 @@ async function printPDF() {
         </div>
 
         <!-- PAGE 4 (HRD ONLY) -->
-        <div class="pdf-page" style="height:100%; box-sizing:border-box; padding-bottom:1px;">
+        <div class="pdf-page" style="height:100%; box-sizing:border-box; padding-bottom:5px;">
            <div style="border:2px solid #000; height:100%; box-sizing:border-box; display:flex; flex-direction:column;">
-             <div style="height:35px; border-bottom:2px solid #000;"></div>
              <div class="section-title" style="text-align:center; background-color:#ccffff; color:#000; border-bottom:2px solid #000; margin-bottom:0; padding:8px 0; font-size:10px; font-weight:bold;">HANYA UNTUK HRD</div>
              
              <div style="padding:20px 30px; font-size:9px; flex:1;">
