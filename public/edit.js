@@ -101,7 +101,8 @@ function toggleSimInfo() {
 
 // ===================== Format Rupiah =====================
 function formatRupiah(angka, prefix) {
-  let number_string = angka.replace(/[^,\d]/g, '').toString(),
+  if (!angka) return '';
+  let number_string = angka.toString().replace(/[^,\d]/g, ''),
     split = number_string.split(','),
     sisa = split[0].length % 3,
     rupiah = split[0].substr(0, sisa),
@@ -118,9 +119,11 @@ function formatRupiah(angka, prefix) {
 
 // Attach listener to input
 function attachCurrencyFormat(inputElement) {
-  inputElement.addEventListener('keyup', function (e) {
-    this.value = formatRupiah(this.value);
-  });
+  if (inputElement) {
+    inputElement.addEventListener('keyup', function (e) {
+      this.value = formatRupiah(this.value);
+    });
+  }
 }
 
 // ===================== Step Navigation =====================
@@ -624,6 +627,9 @@ function handleFileSelect(input, cardId) {
   }
 }
 
+const urlParams = new URLSearchParams(window.location.search);
+const appId = urlParams.get('id');
+
 // ===================== Form Submission =====================
 document.getElementById('applicationForm').addEventListener('submit', async function (e) {
   e.preventDefault();
@@ -741,8 +747,8 @@ document.getElementById('applicationForm').addEventListener('submit', async func
     if (ktpFile) formData.append('ktp_file', ktpFile);
     if (cvFile) formData.append('cv_file', cvFile);
 
-    const response = await fetch('/api/applications', {
-      method: 'POST',
+    const response = await fetch(`/api/applications/${appId}`, {
+      method: 'PUT',
       body: formData
     });
 
@@ -759,51 +765,147 @@ document.getElementById('applicationForm').addEventListener('submit', async func
   } catch (error) {
     loading.classList.remove('active');
     console.error('Submit error:', error);
-    alert('Terjadi kesalahan koneksi. Silakan coba lagi.');
+    alert('Terjadi kesalahan koneksi. Detail: ' + error.message);
   }
 });
 
 function resetForm() {
-  document.getElementById('successModal').classList.remove('active');
-  document.getElementById('applicationForm').reset();
+  window.location.href = '/admin.html';
+}
 
-  // Reset file upload cards
-  document.querySelectorAll('.upload-card').forEach(card => card.classList.remove('has-file'));
-  document.querySelectorAll('.file-name').forEach(el => el.textContent = '');
+async function loadDataForEdit() {
+  if (!appId) {
+    alert('ID Pelamar tidak ditemukan.');
+    window.location.href = '/admin.html';
+    return;
+  }
+  try {
+    const res = await fetch(`/api/applications/${appId}`);
+    const result = await res.json();
+    if (!result.success) {
+      alert('Data tidak ditemukan');
+      window.location.href = '/admin.html';
+      return;
+    }
+    populateForm(result.data);
+  } catch (err) {
+    console.error(err);
+    alert('Gagal mengambil data pelamar');
+  }
+}
 
-  // Reset usia and jumlah anak
-  document.getElementById('usia').value = '';
-  document.getElementById('jumlahAnakGroup').style.display = 'none';
-  document.getElementById('jumlah_anak').value = '';
+function populateForm(app) {
+  const ids = [
+    'nama_lengkap', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'kewarganegaraan', 'keturunan',
+    'agama', 'status_pernikahan', 'jumlah_anak', 'nik', 'npwp', 'tinggi_badan', 'berat_badan',
+    'alamat_ktp', 'alamat_domisili', 'tempat_tinggal', 'no_hp', 'email', 'cacat_info', 'hamil_info',
+    'pasangan_nama', 'pasangan_pekerjaan', 'pasangan_perusahaan', 'pasangan_telp',
+    'darurat_nama', 'darurat_hubungan', 'darurat_telp_rumah', 'darurat_telp_kantor', 'darurat_hp',
+    'pendidikan_skrg', 'komputer', 'kemampuan_lain', 'hobby', 'kegiatan_sosial', 'pencapaian',
+    'posisi_dilamar', 'gaji_diharapkan', 'tanggal_mulai', 'info_posisi', 'sim_tipe', 'sim_noreg',
+    'ref1_nama', 'ref1_alamat', 'ref1_jabatan', 'ref1_tel',
+    'ref2_nama', 'ref2_alamat', 'ref2_jabatan', 'ref2_tel',
+    'tanda_tangan', 'tanggal_ttd'
+  ];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && app[id]) {
+      el.value = app[id];
+    }
+  });
 
-  // Reset to step 1
-  currentStep = 1;
-  updateProgress();
+  const gajiInput = document.getElementById('gaji_diharapkan');
+  if (gajiInput && app.gaji_diharapkan) {
+    gajiInput.value = formatRupiah(app.gaji_diharapkan);
+  }
 
-  // Reset dynamic entries
-  const pendContainer = document.getElementById('pendidikanContainer');
-  while (pendContainer.children.length > 1) pendContainer.removeChild(pendContainer.lastChild);
-  const bahasContainer = document.getElementById('bahasaContainer');
-  while (bahasContainer.children.length > 1) bahasContainer.removeChild(bahasContainer.lastChild);
-  const pengContainer = document.getElementById('pengalamanContainer');
-  while (pengContainer.children.length > 1) pengContainer.removeChild(pengContainer.lastChild);
-  const kelContainer = document.getElementById('keluargaContainer');
-  while (kelContainer.children.length > 1) kelContainer.removeChild(kelContainer.lastChild);
+  ['info_cacat', 'info_hamil', 'info_pailit', 'info_kerabat', 'info_pidana', 'info_sim'].forEach(name => {
+    const value = app[name] || 'Tidak';
+    const radio = document.querySelector(`input[name="${name}"][value="${value}"]`);
+    if (radio) radio.checked = true;
+  });
 
-  pendidikanCount = 1;
-  bahasaCount = 1;
-  pengalamanCount = 1;
-  keluargaCount = 1;
-  updateRemoveButtons('pendidikan');
-  updateRemoveButtonsBahasa();
-  updateRemoveButtons('pengalaman');
+  calculateAge();
+  toggleJumlahAnak();
+  toggleCacatInfo();
+  toggleHamilInfo();
+  toggleSimInfo();
+
+  try {
+    const pend = JSON.parse(app.pendidikan || '[]');
+    if (pend.length > 0) {
+      document.getElementById('pendidikanContainer').innerHTML = '';
+      pendidikanCount = 0;
+      pend.forEach((p, i) => {
+        addPendidikan();
+        document.querySelector(`[name="pendidikan_sekolah_${i}"]`).value = p.sekolah || '';
+        document.querySelector(`[name="pendidikan_dari_${i}"]`).value = p.dari || '';
+        document.querySelector(`[name="pendidikan_ke_${i}"]`).value = p.ke || '';
+        document.querySelector(`[name="pendidikan_jurusan_${i}"]`).value = p.jurusan || p.kualifikasi || '';
+        document.querySelector(`[name="pendidikan_gelar_${i}"]`).value = p.gelar || '';
+        document.querySelector(`[name="pendidikan_ipk_${i}"]`).value = p.ipk || '';
+      });
+    }
+  } catch { }
+
+  try {
+    const bahasa = JSON.parse(app.bahasa || '[]');
+    if (bahasa.length > 0) {
+      document.getElementById('bahasaContainer').innerHTML = '';
+      bahasaCount = 0;
+      bahasa.forEach((b, i) => {
+        addBahasa();
+        document.querySelector(`[name="bahasa_nama_${i}"]`).value = b.nama || '';
+        document.querySelector(`[name="bahasa_bicara_${i}"]`).value = b.bicara || 'B - Rata-Rata';
+        document.querySelector(`[name="bahasa_nulis_${i}"]`).value = b.nulis || 'B - Rata-Rata';
+      });
+    }
+  } catch { }
+
+  try {
+    const peng = JSON.parse(app.pengalaman || '[]');
+    if (peng.length > 0) {
+      document.getElementById('pengalamanContainer').innerHTML = '';
+      pengalamanCount = 0;
+      peng.forEach((p, i) => {
+        addPengalaman();
+        document.querySelector(`[name="pengalaman_perusahaan_${i}"]`).value = p.perusahaan || '';
+        document.querySelector(`[name="pengalaman_jabatan_${i}"]`).value = p.jabatan || '';
+        document.querySelector(`[name="pengalaman_mulai_${i}"]`).value = p.mulai || '';
+        document.querySelector(`[name="pengalaman_selesai_${i}"]`).value = p.selesai || '';
+        document.querySelector(`[name="pengalaman_alamat_${i}"]`).value = p.alamat || '';
+        document.querySelector(`[name="pengalaman_telp_${i}"]`).value = p.telp || '';
+        document.querySelector(`[name="pengalaman_tugas_${i}"]`).value = p.tugas || '';
+        document.querySelector(`[name="pengalaman_gaji_mulai_${i}"]`).value = p.gaji_mulai ? formatRupiah(p.gaji_mulai) : '';
+        document.querySelector(`[name="pengalaman_gaji_akhir_${i}"]`).value = p.gaji_akhir ? formatRupiah(p.gaji_akhir) : '';
+        document.querySelector(`[name="pengalaman_alasan_${i}"]`).value = p.alasan || '';
+      });
+    }
+  } catch { }
+
+  try {
+    const kel = JSON.parse(app.keluarga || '[]');
+    if (kel.length > 0) {
+      document.getElementById('keluargaContainer').innerHTML = '';
+      keluargaCount = 0;
+      kel.forEach((k, i) => {
+        addKeluarga();
+        document.querySelector(`[name="keluarga_nama_${i}"]`).value = k.nama || '';
+        document.querySelector(`[name="keluarga_hubungan_${i}"]`).value = k.hubungan || '';
+        document.querySelector(`[name="keluarga_usia_${i}"]`).value = k.usia || '';
+        document.querySelector(`[name="keluarga_pekerjaan_${i}"]`).value = k.pekerjaan || '';
+        const rad = document.querySelector(`input[name="keluarga_dukungan_${i}"][value="${k.dukungan || 'Tidak'}"]`);
+        if (rad) rad.checked = true;
+      });
+    }
+  } catch { }
 }
 
 // Initialize
 updateProgress();
 updateRemoveButtonsBahasa();
+// Initialize format rupiah for static fields
+const editGajiInput = document.getElementById('gaji_diharapkan');
+if (editGajiInput) attachCurrencyFormat(editGajiInput);
 
-// Format Rupiah init
-const gajiIntInput = document.getElementById('gaji_diharapkan');
-if (gajiIntInput) attachCurrencyFormat(gajiIntInput);
-
+loadDataForEdit();
