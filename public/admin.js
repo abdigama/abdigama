@@ -1072,7 +1072,7 @@ async function printPDF() {
                   <div class="val" style="flex:1; border-bottom:1px solid #000; min-height:16px; padding-left:5px;">${app.ref1_nama || ''}</div>
                 </div>
                 <div style="position:relative; margin-bottom:10px; min-height:48px; line-height:16px; font-size:9px;">
-                  <div style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; background-image:linear-gradient(to bottom, transparent 15px, #000 15px); background-size:100% 16px; z-index:0;"></div>
+                  <div style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; background-image:linear-gradient(to bottom, transparent 15.2px, #333 15.2px); background-size:100% 16px; z-index:0;"></div>
                   <div style="position:relative; z-index:1;">
                     <span style="float:left; background-color:#fff; padding-right:5px; margin-right:5px;">Nama & Alamat Karyawan :</span>
                     <span class="val">${app.ref1_alamat || ''}</span>
@@ -1093,7 +1093,7 @@ async function printPDF() {
                   <div class="val" style="flex:1; border-bottom:1px solid #000; min-height:16px; padding-left:5px;">${app.ref2_nama || ''}</div>
                 </div>
                 <div style="position:relative; margin-bottom:10px; min-height:48px; line-height:16px; font-size:9px;">
-                  <div style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; background-image:linear-gradient(to bottom, transparent 15px, #000 15px); background-size:100% 16px; z-index:0;"></div>
+                  <div style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; background-image:linear-gradient(to bottom, transparent 15.2px, #333 15.2px); background-size:100% 16px; z-index:0;"></div>
                   <div style="position:relative; z-index:1;">
                     <span style="float:left; background-color:#fff; padding-right:5px; margin-right:5px;">Nama & Alamat Karyawan :</span>
                     <span class="val">${app.ref2_alamat || ''}</span>
