@@ -1128,14 +1128,18 @@ async function printPDF() {
 
                 <div style="display:flex; justify-content:space-between; margin-top:50px; padding:0 20px;">
                     <div style="display:flex; align-items:flex-end;">
-                     <div style="width:90px;">TANDA TANGAN PELAMAR :</div>
-                     <div style="width:150px; border-bottom:1px solid #000; text-align:center; position:relative; min-height:20px;">
-                       <span class="val" style="font-family:'Plus Jakarta Sans', sans-serif; font-size:12px; color:#000; position:absolute; bottom:2px; left:0; right:0;">${app.tanda_tangan || ''}</span>
+                     <div style="width:150px;">TANDA TANGAN PELAMAR :</div>
+                     <div style="width:250px; border-bottom:1px solid #000; text-align:center; position:relative; min-height:20px;">
+                       <span class="val" style="font-family:'Plus Jakarta Sans', sans-serif; font-size:10px; color:#000; position:absolute; bottom:2px; left:0; right:0;">${app.tanda_tangan || ''}</span>
                      </div>
                   </div>
                   <div style="display:flex; align-items:flex-end;">
                      <div style="width:45px;">TANGGAL :</div>
-                     <div class="val" style="width:120px; border-bottom:1px solid #000; text-align:center;">${app.tanggal_ttd || formatDateObj(new Date())}</div>
+                     <div class="val" style="width:120px; border-bottom:1px solid #000; text-align:center;">${(function (val) {
+        const d = val ? new Date(val) : new Date();
+        if (isNaN(d.getTime())) return val || '';
+        return String(d.getDate()).padStart(2, '0') + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + d.getFullYear();
+      })(app.tanggal_ttd)}</div>
                   </div>
                 </div>
                 <div style="height:10px;"></div>
