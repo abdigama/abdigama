@@ -126,6 +126,8 @@ app.post('/api/applications', upload.fields([
             tanggal_lahir: data.tanggal_lahir || '',
             usia: data.usia || '',
             jenis_kelamin: data.jenis_kelamin || '',
+            kewarganegaraan: data.kewarganegaraan || '',
+            keturunan: data.keturunan || '',
             agama: data.agama || '',
             status_pernikahan: data.status_pernikahan || '',
             jumlah_anak: data.jumlah_anak || '',
@@ -136,7 +138,28 @@ app.post('/api/applications', upload.fields([
             alamat_domisili: data.alamat_domisili || '',
             no_hp: data.no_hp || '',
             email: data.email || '',
+            tempat_tinggal: data.tempat_tinggal || '',
+            info_cacat: data.info_cacat || 'Tidak',
+            cacat_info: data.cacat_info || '',
+            info_hamil: data.info_hamil || 'Tidak',
+            hamil_info: data.hamil_info || '',
+            pasangan_nama: data.pasangan_nama || '',
+            pasangan_pekerjaan: data.pasangan_pekerjaan || '',
+            pasangan_perusahaan: data.pasangan_perusahaan || '',
+            pasangan_telp: data.pasangan_telp || '',
+            darurat_nama: data.darurat_nama || '',
+            darurat_hubungan: data.darurat_hubungan || '',
+            darurat_telp_rumah: data.darurat_telp_rumah || '',
+            darurat_telp_kantor: data.darurat_telp_kantor || '',
+            darurat_hp: data.darurat_hp || '',
+            komputer: data.komputer || '',
+            kemampuan_lain: data.kemampuan_lain || '',
+            bahasa: data.bahasa || '[]',
+            hobby: data.hobby || '',
+            kegiatan_sosial: data.kegiatan_sosial || '',
+            pencapaian: data.pencapaian || '',
             pendidikan: data.pendidikan || '[]',
+            pendidikan_skrg: data.pendidikan_skrg || '',
             pengalaman: data.pengalaman || '[]',
             posisi_dilamar: data.posisi_dilamar || '',
             gaji_diharapkan: data.gaji_diharapkan || '',
@@ -146,6 +169,8 @@ app.post('/api/applications', upload.fields([
             info_kerabat: data.info_kerabat || 'Tidak',
             info_pidana: data.info_pidana || 'Tidak',
             info_sim: data.info_sim || 'Tidak',
+            sim_tipe: data.sim_tipe || '',
+            sim_noreg: data.sim_noreg || '',
             ref1_nama: data.ref1_nama || '',
             ref1_alamat: data.ref1_alamat || '',
             ref1_jabatan: data.ref1_jabatan || '',
@@ -158,7 +183,8 @@ app.post('/api/applications', upload.fields([
             foto: files.foto ? files.foto[0].filename : '',
             ktp_file: files.ktp_file ? files.ktp_file[0].filename : '',
             cv_file: files.cv_file ? files.cv_file[0].filename : '',
-            persetujuan: data.persetujuan === 'true' || data.persetujuan === '1' ? 1 : 0
+            tanda_tangan: data.tanda_tangan || '',
+            tanggal_ttd: data.tanggal_ttd || ''
         };
 
         const result = db.insert(record);
@@ -263,15 +289,19 @@ app.get('/api/export/csv', requireAuth, (req, res) => {
         const applications = db.getAllForExport();
 
         const headers = [
-            'App ID', 'ID', 'Nama Lengkap', 'Tempat Lahir', 'Tanggal Lahir', 'Usia', 'Jenis Kelamin',
+            'App ID', 'ID', 'Nama Lengkap', 'Tempat Lahir', 'Tanggal Lahir', 'Usia', 'Jenis Kelamin', 'Kewarganegaraan', 'Keturunan',
             'Agama', 'Status Pernikahan', 'Jumlah Anak', 'NIK',
-            'Tinggi Badan', 'Berat Badan', 'Alamat KTP', 'Alamat Domisili',
-            'No HP', 'Email',
+            'Tinggi Badan', 'Berat Badan', 'Alamat KTP', 'Alamat Domisili', 'Tempat Tinggal',
+            'No HP', 'Email', 'Cacat Fisik', 'Hamil',
+            'Pasangan Nama', 'Pasangan Pekerjaan', 'Pasangan Perusahaan', 'Pasangan Telp',
+            'Darurat Nama', 'Darurat Hubungan', 'Darurat Telp Rumah', 'Darurat Telp Kantor', 'Darurat HP',
+            'Komp/Aplikasi', 'Kemampuan Lain', 'Bahasa JSON', 'Hobby', 'Kegiataan Sosial', 'Pencapaian/Prestasi',
             'Posisi Dilamar', 'Gaji Diharapkan', 'Tanggal Mulai',
             'Info Posisi', 'Bangkrut/Pailit', 'Kerabat di PT', 'Riwayat Pidana', 'Punya SIM',
             'Ref1 Nama', 'Ref1 Alamat', 'Ref1 Jabatan', 'Ref1 Tel',
             'Ref2 Nama', 'Ref2 Alamat', 'Ref2 Jabatan', 'Ref2 Tel',
-            'Data Keluarga JSON', 'Status', 'Tanggal Daftar'
+            'Data Keluarga JSON', 'Status', 'Tanggal Daftar',
+            'Tanda Tangan', 'Tanggal TTD'
         ];
 
         let csv = '\uFEFF' + headers.join(',') + '\n'; // BOM for Excel UTF-8
@@ -285,6 +315,8 @@ app.get('/api/export/csv', requireAuth, (req, res) => {
                 app.tanggal_lahir || '',
                 `"${(app.usia || '').replace(/"/g, '""')}"`,
                 app.jenis_kelamin || '',
+                `"${(app.kewarganegaraan || '').replace(/"/g, '""')}"`,
+                `"${(app.keturunan || '').replace(/"/g, '""')}"`,
                 app.agama || '',
                 app.status_pernikahan || '',
                 app.jumlah_anak || '',
@@ -293,8 +325,26 @@ app.get('/api/export/csv', requireAuth, (req, res) => {
                 app.berat_badan || '',
                 `"${(app.alamat_ktp || '').replace(/"/g, '""')}"`,
                 `"${(app.alamat_domisili || '').replace(/"/g, '""')}"`,
+                app.tempat_tinggal || '',
                 app.no_hp || '',
                 app.email || '',
+                app.info_cacat || 'Tidak',
+                app.info_hamil || 'Tidak',
+                `"${(app.pasangan_nama || '').replace(/"/g, '""')}"`,
+                `"${(app.pasangan_pekerjaan || '').replace(/"/g, '""')}"`,
+                `"${(app.pasangan_perusahaan || '').replace(/"/g, '""')}"`,
+                app.pasangan_telp || '',
+                `"${(app.darurat_nama || '').replace(/"/g, '""')}"`,
+                `"${(app.darurat_hubungan || '').replace(/"/g, '""')}"`,
+                app.darurat_telp_rumah || '',
+                app.darurat_telp_kantor || '',
+                app.darurat_hp || '',
+                `"${(app.komputer || '').replace(/"/g, '""')}"`,
+                `"${(app.kemampuan_lain || '').replace(/"/g, '""')}"`,
+                `"${(app.bahasa || '[]').replace(/"/g, '""')}"`,
+                `"${(app.hobby || '').replace(/"/g, '""')}"`,
+                `"${(app.kegiatan_sosial || '').replace(/"/g, '""')}"`,
+                `"${(app.pencapaian || '').replace(/"/g, '""')}"`,
                 `"${(app.posisi_dilamar || '').replace(/"/g, '""')}"`,
                 app.gaji_diharapkan || '',
                 app.tanggal_mulai || '',
@@ -313,7 +363,9 @@ app.get('/api/export/csv', requireAuth, (req, res) => {
                 app.ref2_tel || '',
                 `"${(app.keluarga || '').replace(/"/g, '""')}"`,
                 app.status || '',
-                app.created_at || ''
+                app.created_at || '',
+                `"${(app.tanda_tangan || '').replace(/"/g, '""')}"`,
+                app.tanggal_ttd || ''
             ];
             csv += row.join(',') + '\n';
         });

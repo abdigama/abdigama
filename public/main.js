@@ -2,6 +2,7 @@
 let currentStep = 1;
 const totalSteps = 3;
 let pendidikanCount = 1;
+let bahasaCount = 1;
 let pengalamanCount = 1;
 let keluargaCount = 1;
 
@@ -43,6 +44,58 @@ function toggleJumlahAnak() {
   } else {
     group.style.display = 'none';
     document.getElementById('jumlah_anak').value = '';
+  }
+}
+
+// ===================== Conditional Cacat & Hamil =====================
+function toggleCacatInfo() {
+  const isYa = document.querySelector('input[name="info_cacat"]:checked').value === 'Ya';
+  const infoEl = document.getElementById('cacat_info');
+  if (infoEl) {
+    if (isYa) {
+      infoEl.style.display = 'block';
+      infoEl.required = true;
+    } else {
+      infoEl.style.display = 'none';
+      infoEl.required = false;
+      infoEl.value = '';
+    }
+  }
+}
+
+function toggleHamilInfo() {
+  const isYa = document.querySelector('input[name="info_hamil"]:checked').value === 'Ya';
+  const infoEl = document.getElementById('hamil_info');
+  if (infoEl) {
+    if (isYa) {
+      infoEl.style.display = 'block';
+      infoEl.required = true;
+    } else {
+      infoEl.style.display = 'none';
+      infoEl.required = false;
+      infoEl.value = '';
+    }
+  }
+}
+
+function toggleSimInfo() {
+  const isYa = document.querySelector('input[name="info_sim"]:checked').value === 'Ya';
+  const infoEl = document.getElementById('simDetails');
+  const simTipe = document.getElementById('sim_tipe');
+  const simNoreg = document.getElementById('sim_noreg');
+
+  if (infoEl) {
+    if (isYa) {
+      infoEl.style.display = 'block';
+      simTipe.required = true;
+      simNoreg.required = true;
+    } else {
+      infoEl.style.display = 'none';
+      simTipe.required = false;
+      simNoreg.required = false;
+      simTipe.value = '';
+      simNoreg.value = '';
+    }
   }
 }
 
@@ -114,21 +167,44 @@ function validateStep(step) {
   if (step === 1) {
     const fields = [
       { id: 'nama_lengkap', msg: 'Nama lengkap wajib diisi' },
+      { id: 'tempat_lahir', msg: 'Tempat lahir wajib diisi' },
+      { id: 'tanggal_lahir', msg: 'Tanggal lahir wajib diisi' },
       { id: 'jenis_kelamin', msg: 'Pilih jenis kelamin' },
+      { id: 'agama', msg: 'Pilih agama' },
+      { id: 'status_pernikahan', msg: 'Pilih status pernikahan' },
+      { id: 'kewarganegaraan', msg: 'Kewarganegaraan wajib diisi' },
+      { id: 'keturunan', msg: 'Keturunan wajib diisi' },
       { id: 'nik', msg: 'NIK wajib diisi (16 digit)' },
+      { id: 'tinggi_badan', msg: 'Tinggi badan wajib diisi' },
+      { id: 'berat_badan', msg: 'Berat badan wajib diisi' },
+      { id: 'alamat_ktp', msg: 'Alamat KTP wajib diisi' },
+      { id: 'alamat_domisili', msg: 'Alamat domisili wajib diisi' },
       { id: 'no_hp', msg: 'Nomor HP wajib diisi' },
-      { id: 'email', msg: 'Email wajib diisi' }
+      { id: 'email', msg: 'Email wajib diisi' },
+      { id: 'tempat_tinggal', msg: 'Pilih tempat tinggal' },
+      { id: 'darurat_nama', msg: 'Nama kontak darurat wajib diisi' },
+      { id: 'darurat_hubungan', msg: 'Hubungan kontak darurat wajib diisi' }
     ];
 
     fields.forEach(f => {
       const el = document.getElementById(f.id);
       const errEl = document.getElementById(`error-${f.id}`);
-      if (!el.value.trim()) {
+      if (el && !el.value.trim()) {
         el.classList.add('invalid');
         if (errEl) { errEl.textContent = f.msg; errEl.classList.add('visible'); }
         valid = false;
       }
     });
+
+    // Validasi condisional 'jumlah_anak'
+    const statusPernikahan = document.getElementById('status_pernikahan');
+    const jumlahAnak = document.getElementById('jumlah_anak');
+    if (statusPernikahan && statusPernikahan.value === 'Menikah') {
+      if (!jumlahAnak.value.trim()) {
+        jumlahAnak.classList.add('invalid');
+        valid = false;
+      }
+    }
 
     // Validate NIK length
     const nik = document.getElementById('nik');
@@ -158,10 +234,43 @@ function validateStep(step) {
       valid = false;
     }
 
-    const persetujuan = document.getElementById('persetujuan');
-    const errPersetujuan = document.getElementById('error-persetujuan');
-    if (!persetujuan.checked) {
-      if (errPersetujuan) { errPersetujuan.textContent = 'Anda harus menyetujui pernyataan ini'; errPersetujuan.classList.add('visible'); }
+    // Validasi Pasangan Wajib
+    const arrPasanganIds = ['pasangan_nama', 'pasangan_pekerjaan', 'pasangan_perusahaan', 'pasangan_telp'];
+    arrPasanganIds.forEach(id => {
+      const field = document.getElementById(id);
+      const errField = document.getElementById(`error-${id}`);
+      if (!field.value.trim()) {
+        field.classList.add('invalid');
+        if (errField) { errField.textContent = 'Field ini wajib diisi'; errField.classList.add('visible'); }
+        valid = false;
+      }
+    });
+
+    // Validasi Kontak Darurat Tambahan Wajib
+    const arrDaruratIds = ['darurat_telp_rumah', 'darurat_telp_kantor', 'darurat_hp'];
+    arrDaruratIds.forEach(id => {
+      const field = document.getElementById(id);
+      const errField = document.getElementById(`error-${id}`);
+      if (!field.value.trim()) {
+        field.classList.add('invalid');
+        if (errField) { errField.textContent = 'Nomor telepon wajib diisi'; errField.classList.add('visible'); }
+        valid = false;
+      }
+    });
+
+    const txtTtd = document.getElementById('tanda_tangan');
+    const errTtd = document.getElementById('error-tanda_tangan');
+    if (!txtTtd.value.trim()) {
+      txtTtd.classList.add('invalid');
+      if (errTtd) { errTtd.textContent = 'Nama lengkap tanda tangan wajib diisi'; errTtd.classList.add('visible'); }
+      valid = false;
+    }
+
+    const tglTtd = document.getElementById('tanggal_ttd');
+    const errTglTtd = document.getElementById('error-tanggal_ttd');
+    if (!tglTtd.value.trim()) {
+      tglTtd.classList.add('invalid');
+      if (errTglTtd) { errTglTtd.textContent = 'Tanggal tanda tangan wajib diisi'; errTglTtd.classList.add('visible'); }
       valid = false;
     }
   }
@@ -217,29 +326,21 @@ function addPendidikan() {
       </button>
     </div>
     <div class="form-grid">
-      <div class="form-group">
-        <label>Jenjang Pendidikan</label>
-        <select name="pendidikan_jenjang_${index}">
-          <option value="">-- Pilih --</option>
-          <option value="SD">SD</option>
-          <option value="SMP">SMP</option>
-          <option value="SMA/SMK">SMA/SMK</option>
-          <option value="D1">D1</option><option value="D2">D2</option><option value="D3">D3</option>
-          <option value="D4/S1">D4/S1</option>
-          <option value="S2">S2</option><option value="S3">S3</option>
-        </select>
+      <div class="form-group full-width">
+        <label>Nama Sekolah / Institusi / Universitas</label>
+        <input type="text" name="pendidikan_sekolah_${index}" placeholder="Nama sekolah/universitas">
       </div>
       <div class="form-group">
-        <label>Nama Institusi</label>
-        <input type="text" name="pendidikan_institusi_${index}" placeholder="Nama sekolah/universitas">
+        <label>Dari (Tahun)</label>
+        <input type="text" name="pendidikan_dari_${index}" placeholder="Contoh: 2010">
       </div>
       <div class="form-group">
-        <label>Jurusan / Program Studi</label>
-        <input type="text" name="pendidikan_jurusan_${index}" placeholder="Jurusan atau bidang studi">
+        <label>Ke (Tahun)</label>
+        <input type="text" name="pendidikan_ke_${index}" placeholder="Contoh: 2013">
       </div>
-      <div class="form-group">
-        <label>Tahun Lulus</label>
-        <input type="number" name="pendidikan_tahun_${index}" placeholder="2024" min="1970" max="2030">
+      <div class="form-group full-width">
+        <label>Kualifikasi Yang Didapatkan</label>
+        <input type="text" name="pendidikan_kualifikasi_${index}" placeholder="Jurusan, Gelar, nilai, dsb.">
       </div>
     </div>
   `;
@@ -248,6 +349,64 @@ function addPendidikan() {
 
   // Show remove button on first entry if more than one
   updateRemoveButtons('pendidikan');
+}
+
+function addBahasa() {
+  const container = document.getElementById('bahasaContainer');
+  const index = bahasaCount++;
+
+  const tr = document.createElement('tr');
+  tr.dataset.index = index;
+  tr.innerHTML = `
+    <td style="padding:8px; border:1px solid var(--border);">
+      <input type="text" name="bahasa_nama_${index}" placeholder="Bahasa" style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;">
+    </td>
+    <td style="padding:8px; border:1px solid var(--border);">
+      <select name="bahasa_bicara_${index}" style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;">
+        <option value="Sangat Baik">Sangat Baik</option>
+        <option value="Baik">Baik</option>
+        <option value="Rata-Rata" selected>Rata-Rata</option>
+        <option value="Kurang">Kurang</option>
+      </select>
+    </td>
+    <td style="padding:8px; border:1px solid var(--border);">
+      <select name="bahasa_nulis_${index}" style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;">
+        <option value="Sangat Baik">Sangat Baik</option>
+        <option value="Baik">Baik</option>
+        <option value="Rata-Rata" selected>Rata-Rata</option>
+        <option value="Kurang">Kurang</option>
+      </select>
+    </td>
+    <td style="padding:8px; border:1px solid var(--border); text-align:center;">
+      <button type="button" class="btn-remove-bahasa" onclick="removeBahasa(this)" style="color:var(--error); background:none; border:none; cursor:pointer;" title="Hapus Baris">
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      </button>
+    </td>
+  `;
+  container.appendChild(tr);
+  tr.style.animation = 'fadeSlideIn 0.3s ease';
+
+  updateRemoveButtonsBahasa();
+}
+
+function removeBahasa(btn) {
+  const tr = btn.closest('tr');
+  tr.style.animation = 'fadeOut 0.2s ease forwards';
+  setTimeout(() => {
+    tr.remove();
+    updateRemoveButtonsBahasa();
+  }, 200);
+}
+
+function updateRemoveButtonsBahasa() {
+  const container = document.getElementById('bahasaContainer');
+  const rows = container.querySelectorAll('tr');
+  rows.forEach(row => {
+    const removeBtn = row.querySelector('.btn-remove-bahasa');
+    if (removeBtn) {
+      removeBtn.style.display = rows.length > 1 ? 'inline-block' : 'none';
+    }
+  });
 }
 
 function addPengalaman() {
@@ -264,26 +423,46 @@ function addPengalaman() {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
       </button>
     </div>
-    <div class="form-grid">
-      <div class="form-group">
-        <label>Nama Perusahaan</label>
+    <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="form-group full-width">
+        <label>Perusahaan :</label>
         <input type="text" name="pengalaman_perusahaan_${index}" placeholder="Nama perusahaan">
       </div>
-      <div class="form-group">
-        <label>Jabatan / Posisi</label>
+      <div class="form-group full-width">
+        <label>Posisi / Jabatan :</label>
         <input type="text" name="pengalaman_jabatan_${index}" placeholder="Jabatan Anda">
       </div>
       <div class="form-group">
-        <label>Periode Mulai</label>
+        <label>BULAN / TAHUN (Dari) :</label>
         <input type="month" name="pengalaman_mulai_${index}">
       </div>
       <div class="form-group">
-        <label>Periode Selesai</label>
+        <label>BULAN / TAHUN (Ke) :</label>
         <input type="month" name="pengalaman_selesai_${index}">
       </div>
       <div class="form-group full-width">
-        <label>Alasan Keluar</label>
-        <input type="text" name="pengalaman_alasan_${index}" placeholder="Alasan meninggalkan pekerjaan">
+        <label>Alamat :</label>
+        <textarea name="pengalaman_alamat_${index}" rows="2" placeholder="Alamat Perusahaan"></textarea>
+      </div>
+      <div class="form-group full-width">
+        <label>Telp :</label>
+        <input type="text" name="pengalaman_telp_${index}" placeholder="Nomor Telepon Perusahaan">
+      </div>
+      <div class="form-group full-width">
+        <label>Kesimpulan Tugas dan Tanggung Jawab :</label>
+        <textarea name="pengalaman_tugas_${index}" rows="3" placeholder="Ringkasan tugas..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Gaji Dimulai :</label>
+        <input type="text" name="pengalaman_gaji_mulai_${index}" placeholder="Contoh: 4.000.000">
+      </div>
+      <div class="form-group">
+        <label>Gaji Terakhir :</label>
+        <input type="text" name="pengalaman_gaji_akhir_${index}" placeholder="Contoh: 6.000.000">
+      </div>
+      <div class="form-group full-width">
+        <label>Alasan mengundurkan diri/meninggalkan pekerjaan :</label>
+        <textarea name="pengalaman_alasan_${index}" rows="2" placeholder="Alasan Anda keluar..."></textarea>
       </div>
     </div>
   `;
@@ -424,14 +603,17 @@ document.getElementById('applicationForm').addEventListener('submit', async func
   try {
     const formData = new FormData();
 
-    // Basic fields
     const basicFields = [
       'nama_lengkap', 'tempat_lahir', 'tanggal_lahir', 'usia', 'jenis_kelamin',
+      'kewarganegaraan', 'keturunan',
       'agama', 'status_pernikahan', 'jumlah_anak', 'nik',
       'tinggi_badan', 'berat_badan', 'alamat_ktp', 'alamat_domisili',
-      'no_hp', 'email',
+      'no_hp', 'email', 'tempat_tinggal',
+      'pasangan_nama', 'pasangan_pekerjaan', 'pasangan_perusahaan', 'pasangan_telp',
+      'darurat_nama', 'darurat_hubungan', 'darurat_telp_rumah', 'darurat_telp_kantor', 'darurat_hp',
+      'pendidikan_skrg', 'komputer', 'kemampuan_lain', 'hobby', 'kegiatan_sosial', 'pencapaian',
       'posisi_dilamar', 'gaji_diharapkan', 'tanggal_mulai',
-      'info_posisi',
+      'info_posisi', 'sim_tipe', 'sim_noreg',
       'ref1_nama', 'ref1_alamat', 'ref1_jabatan', 'ref1_tel',
       'ref2_nama', 'ref2_alamat', 'ref2_jabatan', 'ref2_tel'
     ];
@@ -441,27 +623,43 @@ document.getElementById('applicationForm').addEventListener('submit', async func
     });
 
     // Radio fields
+    formData.append('info_cacat', document.querySelector('input[name="info_cacat"]:checked')?.value || 'Tidak');
+    formData.append('info_hamil', document.querySelector('input[name="info_hamil"]:checked')?.value || 'Tidak');
     formData.append('info_pailit', document.querySelector('input[name="info_pailit"]:checked')?.value || 'Tidak');
     formData.append('info_kerabat', document.querySelector('input[name="info_kerabat"]:checked')?.value || 'Tidak');
     formData.append('info_pidana', document.querySelector('input[name="info_pidana"]:checked')?.value || 'Tidak');
     formData.append('info_sim', document.querySelector('input[name="info_sim"]:checked')?.value || 'Tidak');
 
-    // Persetujuan
-    formData.append('persetujuan', document.getElementById('persetujuan').checked ? 'true' : 'false');
+    // Persetujuan TTD
+    formData.append('tanda_tangan', document.getElementById('tanda_tangan').value);
+    formData.append('tanggal_ttd', document.getElementById('tanggal_ttd').value);
 
     // Collect pendidikan entries
     const pendidikanEntries = [];
     document.getElementById('pendidikanContainer').querySelectorAll('.card-entry').forEach(entry => {
       const idx = entry.dataset.index;
-      const jenjang = entry.querySelector(`[name="pendidikan_jenjang_${idx}"]`)?.value || '';
-      const institusi = entry.querySelector(`[name="pendidikan_institusi_${idx}"]`)?.value || '';
-      const jurusan = entry.querySelector(`[name="pendidikan_jurusan_${idx}"]`)?.value || '';
-      const tahun = entry.querySelector(`[name="pendidikan_tahun_${idx}"]`)?.value || '';
-      if (jenjang || institusi || jurusan || tahun) {
-        pendidikanEntries.push({ jenjang, institusi, jurusan, tahun });
+      const sekolah = entry.querySelector(`[name="pendidikan_sekolah_${idx}"]`)?.value || '';
+      const dari = entry.querySelector(`[name="pendidikan_dari_${idx}"]`)?.value || '';
+      const ke = entry.querySelector(`[name="pendidikan_ke_${idx}"]`)?.value || '';
+      const kualifikasi = entry.querySelector(`[name="pendidikan_kualifikasi_${idx}"]`)?.value || '';
+      if (sekolah || dari || ke || kualifikasi) {
+        pendidikanEntries.push({ sekolah, dari, ke, kualifikasi });
       }
     });
     formData.append('pendidikan', JSON.stringify(pendidikanEntries));
+
+    // Collect bahasa entries
+    const bahasaEntries = [];
+    document.getElementById('bahasaContainer').querySelectorAll('tr').forEach(tr => {
+      const idx = tr.dataset.index;
+      const nama = tr.querySelector(`[name="bahasa_nama_${idx}"]`)?.value || '';
+      const bicara = tr.querySelector(`[name="bahasa_bicara_${idx}"]`)?.value || '';
+      const nulis = tr.querySelector(`[name="bahasa_nulis_${idx}"]`)?.value || '';
+      if (nama) {
+        bahasaEntries.push({ nama, bicara, nulis });
+      }
+    });
+    formData.append('bahasa', JSON.stringify(bahasaEntries));
 
     // Collect pengalaman entries
     const pengalamanEntries = [];
@@ -471,9 +669,15 @@ document.getElementById('applicationForm').addEventListener('submit', async func
       const jabatan = entry.querySelector(`[name="pengalaman_jabatan_${idx}"]`)?.value || '';
       const mulai = entry.querySelector(`[name="pengalaman_mulai_${idx}"]`)?.value || '';
       const selesai = entry.querySelector(`[name="pengalaman_selesai_${idx}"]`)?.value || '';
+      const alamat = entry.querySelector(`[name="pengalaman_alamat_${idx}"]`)?.value || '';
+      const telp = entry.querySelector(`[name="pengalaman_telp_${idx}"]`)?.value || '';
+      const tugas = entry.querySelector(`[name="pengalaman_tugas_${idx}"]`)?.value || '';
+      const gaji_mulai = entry.querySelector(`[name="pengalaman_gaji_mulai_${idx}"]`)?.value || '';
+      const gaji_akhir = entry.querySelector(`[name="pengalaman_gaji_akhir_${idx}"]`)?.value || '';
       const alasan = entry.querySelector(`[name="pengalaman_alasan_${idx}"]`)?.value || '';
+
       if (perusahaan || jabatan) {
-        pengalamanEntries.push({ perusahaan, jabatan, mulai, selesai, alasan });
+        pengalamanEntries.push({ perusahaan, jabatan, mulai, selesai, alamat, telp, tugas, gaji_mulai, gaji_akhir, alasan });
       }
     });
     formData.append('pengalaman', JSON.stringify(pengalamanEntries));
@@ -543,17 +747,22 @@ function resetForm() {
   // Reset dynamic entries
   const pendContainer = document.getElementById('pendidikanContainer');
   while (pendContainer.children.length > 1) pendContainer.removeChild(pendContainer.lastChild);
+  const bahasContainer = document.getElementById('bahasaContainer');
+  while (bahasContainer.children.length > 1) bahasContainer.removeChild(bahasContainer.lastChild);
   const pengContainer = document.getElementById('pengalamanContainer');
   while (pengContainer.children.length > 1) pengContainer.removeChild(pengContainer.lastChild);
   const kelContainer = document.getElementById('keluargaContainer');
   while (kelContainer.children.length > 1) kelContainer.removeChild(kelContainer.lastChild);
 
   pendidikanCount = 1;
+  bahasaCount = 1;
   pengalamanCount = 1;
   keluargaCount = 1;
   updateRemoveButtons('pendidikan');
+  updateRemoveButtonsBahasa();
   updateRemoveButtons('pengalaman');
 }
 
 // Initialize
 updateProgress();
+updateRemoveButtonsBahasa();
