@@ -958,12 +958,12 @@ async function printPDF() {
         <div class="pdf-page" style="padding:10px;">
           <table class="form-table" style="table-layout: fixed; width: 100%; margin-top:20px; border:2px solid #000;">
             <colgroup>
-              <col style="width: 50%;">
-              <col style="width: 12%;">
-              <col style="width: 8%;">
-              <col style="width: 18%;">
-              <col style="width: 6%;">
-              <col style="width: 6%;">
+              <col style="width: 40%;">
+              <col style="width: 16%;">
+              <col style="width: 13%;">
+              <col style="width: 13%;">
+              <col style="width: 9%;">
+              <col style="width: 9%;">
             </colgroup>
             <tr>
               <th colspan="6" style="text-align:center; background-color:#ccffff; color:#000; font-size:10px; font-weight:bold; padding:4px; border-bottom:1px solid #000;">DATA KELUARGA</th>
@@ -1035,9 +1035,16 @@ async function printPDF() {
                    <div>Apakah Anda mempunyai SIM ?</div>
                    <div class="val" style="width:60px; border-bottom:1px solid #000; text-align:center;">${app.info_sim || 'Tidak'}</div>
                    <div style="margin-left:10px;">Silahkan memberikan klasifikasinya :</div>
-                   <div class="val" style="width:60px; border-bottom:1px solid #000; text-align:center;">${app.info_sim === 'Ya' ? app.sim_tipe : ''}</div>
+                   <select class="val" style="width:60px; border:none; border-bottom:1px solid #000; text-align:center; appearance:none; outline:none; font-family:inherit; font-size:inherit; background:transparent;">
+                     <option value="" ${!app.sim_tipe ? 'selected' : ''}></option>
+                     <option value="SIM A" ${app.sim_tipe === 'SIM A' ? 'selected' : ''}>SIM A</option>
+                     <option value="SIM B1" ${app.sim_tipe === 'SIM B1' ? 'selected' : ''}>SIM B1</option>
+                     <option value="SIM B2" ${app.sim_tipe === 'SIM B2' ? 'selected' : ''}>SIM B2</option>
+                     <option value="SIM C" ${app.sim_tipe === 'SIM C' ? 'selected' : ''}>SIM C</option>
+                     <option value="SIM D" ${app.sim_tipe === 'SIM D' ? 'selected' : ''}>SIM D</option>
+                   </select>
                    <div style="margin-left:10px;">Reg No.</div>
-                   <div class="val" style="flex:1; border-bottom:1px solid #000;">${app.info_sim === 'Ya' ? app.sim_noreg : ''}</div>
+                   <div class="val" style="flex:1; border-bottom:1px solid #000;">${app.info_sim === 'Ya' && app.sim_noreg ? app.sim_noreg : ''}</div>
                  </div>
 
                  <div style="display:flex; align-items:center; margin-top:15px; margin-left:15px; gap:8px;">
