@@ -910,15 +910,15 @@ async function printPDF() {
               </td>
             </tr>
             <tr>
-              <td rowspan="3" style="width:30%; text-align:center; font-size:11px; border-right:1px solid #000; vertical-align:middle; padding:2px;">Bahasa</td>
-              <td colspan="3" style="width:70%; text-align:center; font-size:11px; border-bottom:1px solid #000; padding:4px;">Kemahiran dalan bahasa:</td>
+              <td rowspan="3" colspan="2" style="width:60%; text-align:center; font-size:11px; border-right:1px solid #000; vertical-align:middle; padding:2px;">Bahasa</td>
+              <td colspan="2" style="width:40%; text-align:center; font-size:11px; border-bottom:1px solid #000; padding:4px;">Kemahiran dalan bahasa:</td>
             </tr>
             <tr>
-              <td colspan="3" style="text-align:center; font-size:11px; border-bottom:1px solid #000; padding:4px;">A - Bagus / Fasih &nbsp;&nbsp; B - Rata - Rata &nbsp;&nbsp; C - Lemah</td>
+              <td colspan="2" style="text-align:center; font-size:11px; border-bottom:1px solid #000; padding:4px;">A - Bagus / Fasih &nbsp;&nbsp; B - Rata - Rata &nbsp;&nbsp; C - Lemah</td>
             </tr>
             <tr>
-              <td colspan="2" style="width:35%; text-align:center; font-size:11px; border-right:1px solid #000; padding:4px;">Berbicara</td>
-              <td colspan="1" style="width:35%; text-align:center; font-size:11px; padding:4px;">Menulis</td>
+              <td style="width:20%; text-align:center; font-size:11px; border-right:1px solid #000; padding:4px;">Berbicara</td>
+              <td style="width:20%; text-align:center; font-size:11px; padding:4px;">Menulis</td>
             </tr>
             ${[0, 1, 2, 3].map(i => {
       const b = bhs[i] || {};
@@ -933,9 +933,9 @@ async function printPDF() {
 
       return `
                 <tr>
-                  <td class="val" style="height:20px; border-right:1px solid #000; padding-left:10px; font-size:11px; font-weight:bold;">${b.nama || ''}</td>
-                  <td colspan="2" class="val text-center" style="border-right:1px solid #000; font-size:11px; text-align:center; vertical-align:middle; font-weight:bold;">${getGrade(b.bicara)}</td>
-                  <td colspan="1" class="val text-center" style="font-size:11px; text-align:center; vertical-align:middle; font-weight:bold;">${getGrade(b.nulis)}</td>
+                  <td colspan="2" class="val" style="height:20px; border-right:1px solid #000; padding-left:10px; font-size:11px; font-weight:bold;">${b.nama || ''}</td>
+                  <td class="val text-center" style="border-right:1px solid #000; font-size:11px; text-align:center; vertical-align:middle; font-weight:bold;">${getGrade(b.bicara)}</td>
+                  <td class="val text-center" style="font-size:11px; text-align:center; vertical-align:middle; font-weight:bold;">${getGrade(b.nulis)}</td>
                 </tr>
                 `;
     }).join('')}
