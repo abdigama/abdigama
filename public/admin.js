@@ -1058,7 +1058,7 @@ async function printPDF() {
           </table>
 
           <!-- PETUNJUK -->
-          <div class="section-title" style="text-align:center; background-color:#ccffff; color:#000; border:2px solid #000; border-bottom:1px solid #000; margin-bottom:0; margin-top:20px; font-size:10px; font-weight:bold;">PETUNJUK</div>
+          <div class="section-title" style="text-align:center; background-color:#ccffff; color:#000; border:2px solid #000; border-bottom:1px solid #000; margin-bottom:0; margin-top:20px; font-size:10px; font-weight:bold;">REFERENSI</div>
           <table class="form-table" style="width: 100%; margin-top:0; border:2px solid #000; border-top:none;">
             <tr>
               <td colspan="2" style="font-size:9px; padding:4px 6px; border-bottom:none;">
@@ -1067,39 +1067,39 @@ async function printPDF() {
             </tr>
             <tr>
               <td style="width:50%; vertical-align:top; padding:10px 20px; border-top:none; border-right:none;">
-                <div style="display:flex; align-items:flex-end; margin-bottom:10px;">
-                  <div style="font-size:9px; width:40px;">Nama :</div>
-                  <div class="val" style="flex:1; border-bottom:1px solid #000; min-height:16px;">${app.ref1_nama || ''}</div>
+                <div style="display:flex; align-items:flex-start; margin-bottom:10px;">
+                  <div style="font-size:9px; width:40px; margin-top:2px;">Nama :</div>
+                  <div class="val" style="flex:1; min-height:16px; line-height:16px; background-image:linear-gradient(to bottom, transparent 15px, #000 15px); background-size:100% 16px;">${app.ref1_nama || ''}</div>
                 </div>
-                <div style="display:flex; align-items:flex-start; margin-bottom:25px;">
-                  <div style="font-size:9px; width:110px;">Nama & Alamat Karyawan :</div>
-                  <div class="val" style="flex:1; border-bottom:1px solid #000; min-height:16px;">${app.ref1_alamat || ''}</div>
+                <div style="display:flex; align-items:flex-start; margin-bottom:10px;">
+                  <div style="font-size:9px; width:110px; margin-top:2px;">Nama & Alamat Karyawan :</div>
+                  <div class="val" style="flex:1; min-height:48px; line-height:16px; background-image:linear-gradient(to bottom, transparent 15px, #000 15px); background-size:100% 16px; padding-bottom:1px;">${app.ref1_alamat || ''}</div>
                 </div>
-                <div style="display:flex; align-items:flex-end; margin-bottom:10px;">
-                  <div style="font-size:9px; width:45px;">Jabatan :</div>
-                  <div class="val" style="flex:1; border-bottom:1px solid #000; min-height:16px;">${app.ref1_jabatan || ''}</div>
+                <div style="display:flex; align-items:flex-start; margin-bottom:10px;">
+                  <div style="font-size:9px; width:45px; margin-top:2px;">Jabatan :</div>
+                  <div class="val" style="flex:1; min-height:16px; line-height:16px; background-image:linear-gradient(to bottom, transparent 15px, #000 15px); background-size:100% 16px;">${app.ref1_jabatan || ''}</div>
                 </div>
-                <div style="display:flex; align-items:flex-end;">
-                  <div style="font-size:9px; width:25px;">Tel :</div>
-                  <div class="val" style="flex:1; border-bottom:1px solid #000; min-height:16px;">${app.ref1_tel || ''}</div>
+                <div style="display:flex; align-items:flex-start;">
+                  <div style="font-size:9px; width:25px; margin-top:2px;">Tel :</div>
+                  <div class="val" style="flex:1; min-height:16px; line-height:16px; background-image:linear-gradient(to bottom, transparent 15px, #000 15px); background-size:100% 16px;">${app.ref1_tel || ''}</div>
                 </div>
               </td>
               <td style="width:50%; vertical-align:top; padding:10px 20px; border-top:none; border-left:none;">
-                <div style="display:flex; align-items:flex-end; margin-bottom:10px;">
-                  <div style="font-size:9px; width:40px;">Nama :</div>
-                  <div class="val" style="flex:1; border-bottom:1px solid #000; min-height:16px;">${app.ref2_nama || ''}</div>
+                <div style="display:flex; align-items:flex-start; margin-bottom:10px;">
+                  <div style="font-size:9px; width:40px; margin-top:2px;">Nama :</div>
+                  <div class="val" style="flex:1; min-height:16px; line-height:16px; background-image:linear-gradient(to bottom, transparent 15px, #000 15px); background-size:100% 16px;">${app.ref2_nama || ''}</div>
                 </div>
-                <div style="display:flex; align-items:flex-start; margin-bottom:25px;">
-                  <div style="font-size:9px; width:110px;">Nama & Alamat Karyawan :</div>
-                  <div class="val" style="flex:1; border-bottom:1px solid #000; min-height:16px;">${app.ref2_alamat || ''}</div>
+                <div style="display:flex; align-items:flex-start; margin-bottom:10px;">
+                  <div style="font-size:9px; width:110px; margin-top:2px;">Nama & Alamat Karyawan :</div>
+                  <div class="val" style="flex:1; min-height:48px; line-height:16px; background-image:linear-gradient(to bottom, transparent 15px, #000 15px); background-size:100% 16px; padding-bottom:1px;">${app.ref2_alamat || ''}</div>
                 </div>
-                <div style="display:flex; align-items:flex-end; margin-bottom:10px;">
-                  <div style="font-size:9px; width:45px;">Jabatan :</div>
-                  <div class="val" style="flex:1; border-bottom:1px solid #000; min-height:16px;">${app.ref2_jabatan || ''}</div>
+                <div style="display:flex; align-items:flex-start; margin-bottom:10px;">
+                  <div style="font-size:9px; width:45px; margin-top:2px;">Jabatan :</div>
+                  <div class="val" style="flex:1; min-height:16px; line-height:16px; background-image:linear-gradient(to bottom, transparent 15px, #000 15px); background-size:100% 16px;">${app.ref2_jabatan || ''}</div>
                 </div>
-                <div style="display:flex; align-items:flex-end;">
-                  <div style="font-size:9px; width:25px;">Tel :</div>
-                  <div class="val" style="flex:1; border-bottom:1px solid #000; min-height:16px;">${app.ref2_tel || ''}</div>
+                <div style="display:flex; align-items:flex-start;">
+                  <div style="font-size:9px; width:25px; margin-top:2px;">Tel :</div>
+                  <div class="val" style="flex:1; min-height:16px; line-height:16px; background-image:linear-gradient(to bottom, transparent 15px, #000 15px); background-size:100% 16px;">${app.ref2_tel || ''}</div>
                 </div>
               </td>
             </tr>
@@ -1149,7 +1149,7 @@ async function printPDF() {
         </div>
 
         <!-- PAGE 4 (HRD ONLY) -->
-        <div class="pdf-page" style="height:100%; box-sizing:border-box; padding-bottom:5px;">
+        <div class="pdf-page" style="height:100%; box-sizing:border-box; padding-bottom:1px;">
            <div style="border:2px solid #000; height:100%; box-sizing:border-box; display:flex; flex-direction:column;">
              <div class="section-title" style="text-align:center; background-color:#ccffff; color:#000; border-bottom:2px solid #000; margin-bottom:0; padding:8px 0; font-size:10px; font-weight:bold;">HANYA UNTUK HRD</div>
              
@@ -1171,25 +1171,25 @@ async function printPDF() {
                    <div style="width:220px; border-bottom:1px solid #000;"></div>
                 </div>
                 
-                <div style="margin-bottom:15px; display:flex; align-items:center; margin-left:30px;">
-                   <div style="width:20px; height:15px; border:2px solid #000; margin-right:30px;"></div>
+                <div style="margin-bottom:15px; display:flex; align-items:center; margin-left:10px;">
+                   <div style="width:20px; height:15px; border:1px solid #000; margin-right:30px;"></div>
                    <div>DIPANGGIL UNTUK INTERVIEW</div>
                 </div>
-                <div style="margin-bottom:15px; display:flex; align-items:center; margin-left:30px;">
-                   <div style="width:20px; height:15px; border:2px solid #000; margin-right:30px;"></div>
+                <div style="margin-bottom:15px; display:flex; align-items:center; margin-left:10px;">
+                   <div style="width:20px; height:15px; border:1px solid #000; margin-right:30px;"></div>
                    <div>DISIMPAN SEBAGAI REFERENSI</div>
                 </div>
-                <div style="margin-bottom:50px; display:flex; align-items:center; margin-left:30px;">
-                   <div style="width:20px; height:15px; border:2px solid #000; margin-right:30px;"></div>
+                <div style="margin-bottom:50px; display:flex; align-items:center; margin-left:10px;">
+                   <div style="width:20px; height:15px; border:1px solid #000; margin-right:30px;"></div>
                    <div>TIDAK SESUAI</div>
                 </div>
                 
-                <div style="margin-bottom:40px; margin-left:50px;">DIREKOMENDASIKAN OLEH :</div>
-                <div style="width:150px; border-bottom:1px solid #000; margin-bottom:30px;"></div>
+                <div style="margin-bottom:40px; margin-left:1px;">DIREKOMENDASIKAN OLEH :</div>
+                <div style="width:350px; border-bottom:1px solid #000; margin-bottom:30px;"></div>
                 
                 <div style="display:flex; align-items:flex-end; margin-bottom:500px;">
                    <div style="width:30px;">TGL :</div>
-                   <div style="width:120px; border-bottom:1px solid #000;"></div>
+                   <div style="width:160px; border-bottom:1px solid #000;"></div>
                 </div>
              </div>
            </div>
