@@ -1128,9 +1128,9 @@ async function printPDF() {
 
                 <div style="display:flex; justify-content:space-between; margin-top:50px; padding:0 20px;">
                     <div style="display:flex; align-items:flex-end;">
-                     <div style="width:150px;">TANDA TANGAN PELAMAR :</div>
-                     <div style="width:250px; border-bottom:1px solid #000; text-align:center; position:relative; min-height:20px;">
-                       <span class="val" style="font-family:'Plus Jakarta Sans', sans-serif; font-size:10px; color:#000; position:absolute; bottom:2px; left:0; right:0;">${app.tanda_tangan || ''}</span>
+                     <div style="width:92px; text-align:center;">TANDA TANGAN PELAMAR :</div>
+                     <div style="width:180px; border-bottom:1px solid #000; text-align:center; position:relative; min-height:20px;">
+                       <span class="val" style="font-family:'Plus Jakarta Sans', sans-serif; font-size:9px; color:#000; position:absolute; bottom:2px; left:0; right:0;">${app.tanda_tangan || ''}</span>
                      </div>
                   </div>
                   <div style="display:flex; align-items:flex-end;">
@@ -1149,25 +1149,50 @@ async function printPDF() {
         </div>
 
         <!-- PAGE 4 (HRD ONLY) -->
-        <div class="pdf-page">
-           <div class="section-title" style="text-align:center; background-color:#ccffff; color:#000; border:2px solid #000; border-bottom:1px solid #000; margin-bottom:0; font-size:10px; font-weight:bold;">HANYA UNTUK HRD</div>
-           <table class="form-table" style="width: 100%; margin-top:0; border:2px solid #000; border-top:none;">
-              <tr>
-                 <th width="50%" style="font-size:9px; padding:4px;">Jenis Dokumen Lampiran</th>
-                 <th width="50%" style="font-size:9px; padding:4px;">Ketersediaan</th>
-              </tr>
-              <tr>
-                 <td style="height:30px; font-size:9px;">KTP</td>
-                 <td class="val text-center" style="font-size:9px;">${app.ktp_file ? 'Ada' : 'Tidak Ada'}</td>
-              </tr>
-              <tr>
-                 <td style="height:30px; font-size:9px;">Curriculum Vitae</td>
-                 <td class="val text-center" style="font-size:9px;">${app.cv_file ? 'Ada' : 'Tidak Ada'}</td>
-              </tr>
-           </table>
-
-           <div class="section-title" style="text-align:center; background-color:#ccffff; color:#000; border:2px solid #000; border-bottom:1px solid #000; margin-bottom:0; margin-top:30px; font-size:10px; font-weight:bold;">CATATAN INTERVIEWER</div>
-           <div style="border: 2px solid #000; border-top:none; height:400px; width:100%;"></div>
+        <div class="pdf-page" style="height:100%; box-sizing:border-box; padding-bottom:5px;">
+           <div style="border:2px solid #000; height:100%; box-sizing:border-box; display:flex; flex-direction:column;">
+             <div class="section-title" style="text-align:center; background-color:#ccffff; color:#000; border-bottom:2px solid #000; margin-bottom:0; padding:8px 0; font-size:10px; font-weight:bold;">HANYA UNTUK HRD</div>
+             
+             <div style="padding:20px 30px; font-size:9px; flex:1;">
+                <div style="margin-bottom:30px;">TANGGAL PENERIMAAN</div>
+                
+                <div style="margin-bottom:40px;">DITERIMA OLEH :</div>
+                <div style="width:220px; border-bottom:1px solid #000; margin-bottom:25px;"></div>
+                
+                <div style="display:flex; align-items:flex-end; margin-bottom:20px;">
+                   <div style="width:120px;">NAMA</div>
+                   <div style="width:20px;">:</div>
+                   <div style="width:220px; border-bottom:1px solid #000;"></div>
+                </div>
+                
+                <div style="display:flex; align-items:flex-end; margin-bottom:40px;">
+                   <div style="width:120px;">JABATAN</div>
+                   <div style="width:20px;">:</div>
+                   <div style="width:220px; border-bottom:1px solid #000;"></div>
+                </div>
+                
+                <div style="margin-bottom:15px; display:flex; align-items:center; margin-left:30px;">
+                   <div style="width:20px; height:15px; border:2px solid #000; margin-right:30px;"></div>
+                   <div>DIPANGGIL UNTUK INTERVIEW</div>
+                </div>
+                <div style="margin-bottom:15px; display:flex; align-items:center; margin-left:30px;">
+                   <div style="width:20px; height:15px; border:2px solid #000; margin-right:30px;"></div>
+                   <div>DISIMPAN SEBAGAI REFERENSI</div>
+                </div>
+                <div style="margin-bottom:50px; display:flex; align-items:center; margin-left:30px;">
+                   <div style="width:20px; height:15px; border:2px solid #000; margin-right:30px;"></div>
+                   <div>TIDAK SESUAI</div>
+                </div>
+                
+                <div style="margin-bottom:40px; margin-left:50px;">DIREKOMENDASIKAN OLEH :</div>
+                <div style="width:150px; border-bottom:1px solid #000; margin-bottom:30px;"></div>
+                
+                <div style="display:flex; align-items:flex-end;">
+                   <div style="width:30px;">TGL :</div>
+                   <div style="width:120px; border-bottom:1px solid #000;"></div>
+                </div>
+             </div>
+           </div>
         </div>
       </div>
     `;
