@@ -333,20 +333,20 @@
             </div>
             <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
               <div class="form-group full-width">
-                <label>Nama</label>
-                <input type="text" name="keluarga_nama_0" placeholder="Nama anggota keluarga">
+                <label>Nama <span class="required">*</span></label>
+                <input type="text" name="keluarga_nama_0" placeholder="Nama anggota keluarga" required>
               </div>
               <div class="form-group">
-                <label>Hubungan</label>
-                <input type="text" name="keluarga_hubungan_0" placeholder="Orang tua/suami/istri/anak">
+                <label>Hubungan <span class="required">*</span></label>
+                <input type="text" name="keluarga_hubungan_0" placeholder="Orang tua/suami/istri/anak" required>
               </div>
               <div class="form-group">
-                <label>Usia</label>
-                <input type="number" name="keluarga_usia_0" placeholder="Contoh: 45">
+                <label>Usia <span class="required">*</span></label>
+                <input type="number" name="keluarga_usia_0" placeholder="Contoh: 45" required>
               </div>
               <div class="form-group full-width">
-                <label>Pekerjaan</label>
-                <input type="text" name="keluarga_pekerjaan_0" placeholder="Pekerjaan saat ini">
+                <label>Pekerjaan <span class="required">*</span></label>
+                <input type="text" name="keluarga_pekerjaan_0" placeholder="Pekerjaan saat ini" required>
               </div>
               <div class="form-group full-width" style="margin-top:8px;">
                 <label style="margin-bottom:8px; display:block;">Dibawah dukungan Anda?</label>
@@ -405,29 +405,29 @@
             </div>
             <div class="form-grid">
               <div class="form-group full-width">
-                <label>Nama Sekolah / Institusi / Universitas</label>
-                <input type="text" name="pendidikan_sekolah_0" placeholder="Nama sekolah/universitas">
+                <label>Nama Sekolah / Institusi / Universitas <span class="required">*</span></label>
+                <input type="text" name="pendidikan_sekolah_0" placeholder="Nama sekolah/universitas" required>
               </div>
               <div class="form-group">
-                <label>Dari (Tahun)</label>
-                <input type="text" name="pendidikan_dari_0" placeholder="Contoh: 2010">
+                <label>Dari (Tahun) <span class="required">*</span></label>
+                <input type="text" name="pendidikan_dari_0" placeholder="Contoh: 2010" required>
               </div>
               <div class="form-group">
-                <label>Ke (Tahun)</label>
-                <input type="text" name="pendidikan_ke_0" placeholder="Contoh: 2013">
+                <label>Ke (Tahun) <span class="required">*</span></label>
+                <input type="text" name="pendidikan_ke_0" placeholder="Contoh: 2013" required>
               </div>
               <div class="form-group full-width" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
                 <div>
-                  <label>Jurusan</label>
-                  <input type="text" name="pendidikan_jurusan_0" placeholder="Jurusan">
+                  <label>Jurusan <span class="required">*</span></label>
+                  <input type="text" name="pendidikan_jurusan_0" placeholder="Jurusan" required>
                 </div>
                 <div>
-                  <label>Gelar</label>
-                  <input type="text" name="pendidikan_gelar_0" placeholder="Gelar">
+                  <label>Gelar <span class="required">*</span></label>
+                  <input type="text" name="pendidikan_gelar_0" placeholder="Gelar" required>
                 </div>
                 <div>
-                  <label>IPK</label>
-                  <input type="text" name="pendidikan_ipk_0" placeholder="IPK">
+                  <label>IPK <span class="required">*</span></label>
+                  <input type="text" name="pendidikan_ipk_0" placeholder="IPK" required>
                 </div>
               </div>
             </div>
@@ -448,7 +448,7 @@
             dalam pendidikan sekarang? Jika ya, sebutkan jenis kursus/pendidikan, di mana diambil dan diharapkan tanggal
             penyelesaian:</label>
           <textarea id="pendidikan_skrg" name="pendidikan_skrg" rows="2"
-            placeholder="Nama kursus/pendidikan, lokasi, dan tanggal selesai"></textarea>
+            placeholder="Nama kursus/pendidikan, lokasi, dan tanggal selesai" required></textarea>
         </div>
 
         <!-- KETERAMPILAN LAINNYA -->
@@ -458,14 +458,14 @@
 
         <div class="form-grid" style="grid-template-columns: 1fr;">
           <div class="form-group">
-            <label for="komputer">Aplikasi Komputer :</label>
+            <label for="komputer">Aplikasi Komputer : <span class="required">*</span></label>
             <textarea id="komputer" name="komputer" rows="2"
-              placeholder="Keterampilan komputer yang dikuasai"></textarea>
+              placeholder="Keterampilan komputer yang dikuasai" required></textarea>
           </div>
 
           <div class="form-group">
-            <label for="kemampuan_lain">Kemampuan lain yang dapat dijalankan dengan efisien :</label>
-            <textarea id="kemampuan_lain" name="kemampuan_lain" rows="2" placeholder="Keterampilan lainnya"></textarea>
+            <label for="kemampuan_lain">Kemampuan lain yang dapat dijalankan dengan efisien : <span class="required">*</span></label>
+            <textarea id="kemampuan_lain" name="kemampuan_lain" rows="2" placeholder="Keterampilan lainnya" required></textarea>
           </div>
         </div>
 
@@ -486,11 +486,11 @@
                 <tr data-index="0">
                   <td style="padding:8px; border:1px solid var(--border);">
                     <input type="text" name="bahasa_nama_0" placeholder="Bahasa"
-                      style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;">
+                      style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;" required>
                   </td>
                   <td style="padding:8px; border:1px solid var(--border);">
                     <select name="bahasa_bicara_0"
-                      style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;">
+                      style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;" required>
                       <option value="A - Bagus / Fasih">A - Bagus / Fasih</option>
                       <option value="B - Rata-Rata" selected>B - Rata-Rata</option>
                       <option value="C - Lemah">C - Lemah</option>
@@ -498,7 +498,7 @@
                   </td>
                   <td style="padding:8px; border:1px solid var(--border);">
                     <select name="bahasa_nulis_0"
-                      style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;">
+                      style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;" required>
                       <option value="A - Bagus / Fasih">A - Bagus / Fasih</option>
                       <option value="B - Rata-Rata" selected>B - Rata-Rata</option>
                       <option value="C - Lemah">C - Lemah</option>
@@ -528,12 +528,12 @@
 
         <div class="form-grid" style="grid-template-columns: 1fr 1fr; margin-top:24px;">
           <div class="form-group full-width">
-            <label for="hobby">Hobby :</label>
-            <textarea id="hobby" name="hobby" rows="3"></textarea>
+            <label for="hobby">Hobby : <span class="required">*</span></label>
+            <textarea id="hobby" name="hobby" rows="3" required></textarea>
           </div>
           <div class="form-group full-width">
-            <label for="kegiatan_sosial">Kelompok & Kegiatan Sosial :</label>
-            <textarea id="kegiatan_sosial" name="kegiatan_sosial" rows="3"></textarea>
+            <label for="kegiatan_sosial">Kelompok & Kegiatan Sosial : <span class="required">*</span></label>
+            <textarea id="kegiatan_sosial" name="kegiatan_sosial" rows="3" required></textarea>
           </div>
         </div>
 
@@ -555,44 +555,44 @@
             </div>
             <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
               <div class="form-group full-width">
-                <label>Perusahaan :</label>
-                <input type="text" name="pengalaman_perusahaan_0" placeholder="Nama perusahaan">
+                <label>Perusahaan : <span class="required">*</span></label>
+                <input type="text" name="pengalaman_perusahaan_0" placeholder="Nama perusahaan" required>
               </div>
               <div class="form-group full-width">
-                <label>Posisi / Jabatan :</label>
-                <input type="text" name="pengalaman_jabatan_0" placeholder="Jabatan Anda">
+                <label>Posisi / Jabatan : <span class="required">*</span></label>
+                <input type="text" name="pengalaman_jabatan_0" placeholder="Jabatan Anda" required>
               </div>
               <div class="form-group">
-                <label>BULAN / TAHUN (Dari) :</label>
-                <input type="month" name="pengalaman_mulai_0">
+                <label>BULAN / TAHUN (Dari) : <span class="required">*</span></label>
+                <input type="month" name="pengalaman_mulai_0" required>
               </div>
               <div class="form-group">
-                <label>BULAN / TAHUN (Ke) :</label>
-                <input type="month" name="pengalaman_selesai_0">
+                <label>BULAN / TAHUN (Ke) : <span class="required">*</span></label>
+                <input type="month" name="pengalaman_selesai_0" required>
               </div>
               <div class="form-group full-width">
-                <label>Alamat :</label>
-                <textarea name="pengalaman_alamat_0" rows="2" placeholder="Alamat Perusahaan"></textarea>
+                <label>Alamat : <span class="required">*</span></label>
+                <textarea name="pengalaman_alamat_0" rows="2" placeholder="Alamat Perusahaan" required></textarea>
               </div>
               <div class="form-group full-width">
-                <label>Telp :</label>
-                <input type="text" name="pengalaman_telp_0" placeholder="Nomor Telepon Perusahaan">
+                <label>Telp : <span class="required">*</span></label>
+                <input type="text" name="pengalaman_telp_0" placeholder="Nomor Telepon Perusahaan" required>
               </div>
               <div class="form-group full-width">
-                <label>Kesimpulan Tugas dan Tanggung Jawab :</label>
-                <textarea name="pengalaman_tugas_0" rows="3" placeholder="Ringkasan tugas..."></textarea>
+                <label>Kesimpulan Tugas dan Tanggung Jawab : <span class="required">*</span></label>
+                <textarea name="pengalaman_tugas_0" rows="3" placeholder="Ringkasan tugas..." required></textarea>
               </div>
               <div class="form-group">
-                <label>Gaji Dimulai :</label>
-                <input type="text" name="pengalaman_gaji_mulai_0" placeholder="Contoh: 4.000.000">
+                <label>Gaji Dimulai : <span class="required">*</span></label>
+                <input type="text" name="pengalaman_gaji_mulai_0" placeholder="Contoh: 4.000.000" required>
               </div>
               <div class="form-group">
-                <label>Gaji Terakhir :</label>
-                <input type="text" name="pengalaman_gaji_akhir_0" placeholder="Contoh: 6.000.000">
+                <label>Gaji Terakhir : <span class="required">*</span></label>
+                <input type="text" name="pengalaman_gaji_akhir_0" placeholder="Contoh: 6.000.000" required>
               </div>
               <div class="form-group full-width">
-                <label>Alasan mengundurkan diri/meninggalkan pekerjaan :</label>
-                <textarea name="pengalaman_alasan_0" rows="2" placeholder="Alasan Anda keluar..."></textarea>
+                <label>Alasan mengundurkan diri/meninggalkan pekerjaan : <span class="required">*</span></label>
+                <textarea name="pengalaman_alasan_0" rows="2" placeholder="Alasan Anda keluar..." required></textarea>
               </div>
             </div>
           </div>
@@ -617,21 +617,21 @@
           <div class="card-entry" style="margin-bottom:0;">
             <h4 style="text-align:center; margin-bottom:16px; font-size:1rem; color:var(--primary);">REFERENSI 1</h4>
             <div class="form-group full-width">
-              <label>Nama :</label>
-              <input type="text" id="ref1_nama" name="ref1_nama" placeholder="Nama referensi pertama">
+              <label>Nama : <span class="required">*</span></label>
+              <input type="text" id="ref1_nama" name="ref1_nama" placeholder="Nama referensi pertama" required>
             </div>
             <div class="form-group full-width">
-              <label>Nama & Alamat Karyawan :</label>
+              <label>Nama & Alamat Karyawan : <span class="required">*</span></label>
               <textarea id="ref1_alamat" name="ref1_alamat" rows="2"
-                placeholder="Alamat atau perusahaan referensi"></textarea>
+                placeholder="Alamat atau perusahaan referensi" required></textarea>
             </div>
             <div class="form-group full-width">
-              <label>Jabatan :</label>
-              <input type="text" id="ref1_jabatan" name="ref1_jabatan" placeholder="Jabatan referensi">
+              <label>Jabatan : <span class="required">*</span></label>
+              <input type="text" id="ref1_jabatan" name="ref1_jabatan" placeholder="Jabatan referensi" required>
             </div>
             <div class="form-group full-width">
-              <label>Tel :</label>
-              <input type="text" id="ref1_tel" name="ref1_tel" placeholder="Nomor telepon aktif">
+              <label>Tel : <span class="required">*</span></label>
+              <input type="text" id="ref1_tel" name="ref1_tel" placeholder="Nomor telepon aktif" required>
             </div>
           </div>
 
@@ -639,21 +639,21 @@
           <div class="card-entry" style="margin-bottom:0;">
             <h4 style="text-align:center; margin-bottom:16px; font-size:1rem; color:var(--primary);">REFERENSI 2</h4>
             <div class="form-group full-width">
-              <label>Nama :</label>
-              <input type="text" id="ref2_nama" name="ref2_nama" placeholder="Nama referensi kedua">
+              <label>Nama : <span class="required">*</span></label>
+              <input type="text" id="ref2_nama" name="ref2_nama" placeholder="Nama referensi kedua" required>
             </div>
             <div class="form-group full-width">
-              <label>Nama & Alamat Karyawan :</label>
+              <label>Nama & Alamat Karyawan : <span class="required">*</span></label>
               <textarea id="ref2_alamat" name="ref2_alamat" rows="2"
-                placeholder="Alamat atau perusahaan referensi"></textarea>
+                placeholder="Alamat atau perusahaan referensi" required></textarea>
             </div>
             <div class="form-group full-width">
-              <label>Jabatan :</label>
-              <input type="text" id="ref2_jabatan" name="ref2_jabatan" placeholder="Jabatan referensi">
+              <label>Jabatan : <span class="required">*</span></label>
+              <input type="text" id="ref2_jabatan" name="ref2_jabatan" placeholder="Jabatan referensi" required>
             </div>
             <div class="form-group full-width">
-              <label>Tel :</label>
-              <input type="text" id="ref2_tel" name="ref2_tel" placeholder="Nomor telepon aktif">
+              <label>Tel : <span class="required">*</span></label>
+              <input type="text" id="ref2_tel" name="ref2_tel" placeholder="Nomor telepon aktif" required>
             </div>
           </div>
         </div>
@@ -683,7 +683,7 @@
         <div class="form-group" style="margin-bottom:32px;">
           <textarea id="pencapaian" name="pencapaian" rows="5"
             placeholder="Tuliskan pencapaian dan prestasi Anda di sini..."
-            style="width:100%; border:1px solid var(--border); border-radius:6px; padding:12px; font-family:inherit;"></textarea>
+            style="width:100%; border:1px solid var(--border); border-radius:6px; padding:12px; font-family:inherit;" required></textarea>
         </div>
 
         <!-- Posisi Lamaran -->
@@ -696,13 +696,13 @@
           </div>
 
           <div class="form-group">
-            <label for="gaji_diharapkan">Gaji yang Diharapkan</label>
-            <input type="text" id="gaji_diharapkan" name="gaji_diharapkan" placeholder="Contoh: 5.000.000">
+            <label for="gaji_diharapkan">Gaji yang Diharapkan <span class="required">*</span></label>
+            <input type="text" id="gaji_diharapkan" name="gaji_diharapkan" placeholder="Contoh: 5.000.000" required>
           </div>
 
           <div class="form-group">
-            <label for="tanggal_mulai">Tanggal Bisa Mulai Bekerja</label>
-            <input type="date" id="tanggal_mulai" name="tanggal_mulai">
+            <label for="tanggal_mulai">Tanggal Bisa Mulai Bekerja <span class="required">*</span></label>
+            <input type="date" id="tanggal_mulai" name="tanggal_mulai" required>
           </div>
         </div>
 
@@ -711,7 +711,7 @@
             <label for="info_posisi">1. Posisi saat ini yang dijabat di perusahaan lain/institusi atau benefit yang
               didapatkan, mohon penjelasannya :</label>
             <textarea id="info_posisi" name="info_posisi" rows="4"
-              placeholder="Fasilitas Kesehatan&#10;Perumahan&#10;Transportasi&#10;Tiket Pulang Kampung ke Medan"></textarea>
+              placeholder="Fasilitas Kesehatan&#10;Perumahan&#10;Transportasi&#10;Tiket Pulang Kampung ke Medan" required></textarea>
           </div>
           <div class="form-group">
             <label style="margin-bottom:8px; display:block;">2. Apakah Anda sedang bangkrut atau dinyatakan
@@ -794,8 +794,8 @@
               <p class="upload-label">Pas Foto</p>
               <p class="upload-sublabel">Foto terbaru ukuran 4x6</p>
               <input type="file" id="foto" name="foto" accept="image/*"
-                onchange="handleFileSelect(this, 'upload-foto')">
-              <label for="foto" class="upload-btn">Pilih File</label>
+                onchange="handleFileSelect(this, 'upload-foto')" required>
+              <label for="foto" class="upload-btn">Pilih File <span class="required">*</span></label>
               <p class="file-name" id="file-name-foto"></p>
             </div>
 

@@ -188,40 +188,25 @@ function validateStep(step) {
   });
   stepEl.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
 
-  if (step === 1) {
-    const fields = [
-      { id: 'nama_lengkap', msg: 'Nama lengkap wajib diisi' },
-      { id: 'tempat_lahir', msg: 'Tempat lahir wajib diisi' },
-      { id: 'tanggal_lahir', msg: 'Tanggal lahir wajib diisi' },
-      { id: 'jenis_kelamin', msg: 'Pilih jenis kelamin' },
-      { id: 'agama', msg: 'Pilih agama' },
-      { id: 'status_pernikahan', msg: 'Pilih status pernikahan' },
-      { id: 'kewarganegaraan', msg: 'Kewarganegaraan wajib diisi' },
-      { id: 'keturunan', msg: 'Keturunan wajib diisi' },
-      { id: 'npwp', msg: 'NPWP wajib diisi' },
-      { id: 'nik', msg: 'NIK wajib diisi (16 digit)' },
-      { id: 'tinggi_badan', msg: 'Tinggi badan wajib diisi' },
-      { id: 'berat_badan', msg: 'Berat badan wajib diisi' },
-      { id: 'alamat_ktp', msg: 'Alamat KTP wajib diisi' },
-      { id: 'alamat_domisili', msg: 'Alamat domisili wajib diisi' },
-      { id: 'no_hp', msg: 'Nomor HP wajib diisi' },
-      { id: 'email', msg: 'Email wajib diisi' },
-      { id: 'tempat_tinggal', msg: 'Pilih tempat tinggal' },
-      { id: 'darurat_nama', msg: 'Nama kontak darurat wajib diisi' },
-      { id: 'darurat_hubungan', msg: 'Hubungan kontak darurat wajib diisi' }
-    ];
+  // Validate all required fields in this step
+  const requiredFields = stepEl.querySelectorAll('input:required, select:required, textarea:required');
+  requiredFields.forEach(el => {
+    // skip if hidden (display: none parent) and not a file input (just in case)
+    if (el.offsetParent === null && el.type !== 'file') return;
 
-    fields.forEach(f => {
-      const el = document.getElementById(f.id);
-      const errEl = document.getElementById(`error-${f.id}`);
-      if (el && !el.value.trim()) {
-        el.classList.add('invalid');
-        if (errEl) { errEl.textContent = f.msg; errEl.classList.add('visible'); }
-        valid = false;
+    if (!el.value.trim()) {
+      el.classList.add('invalid');
+      const errEl = document.getElementById(`error-${el.id || el.name}`);
+      if (errEl) {
+        errEl.textContent = 'Field ini wajib diisi';
+        errEl.classList.add('visible');
       }
-    });
+      valid = false;
+    }
+  });
 
-    // Validasi condisional 'jumlah_anak'
+  // Validasi condisional 'jumlah_anak'
+  if (step === 1) {
     const statusPernikahan = document.getElementById('status_pernikahan');
     const jumlahAnak = document.getElementById('jumlah_anak');
     if (statusPernikahan && statusPernikahan.value === 'Menikah') {
@@ -233,7 +218,7 @@ function validateStep(step) {
 
     // Validate NIK length
     const nik = document.getElementById('nik');
-    if (nik.value.trim() && nik.value.trim().length !== 16) {
+    if (nik && nik.value.trim() && nik.value.trim().length !== 16) {
       nik.classList.add('invalid');
       const errNik = document.getElementById('error-nik');
       if (errNik) { errNik.textContent = 'NIK harus 16 digit'; errNik.classList.add('visible'); }
@@ -242,60 +227,10 @@ function validateStep(step) {
 
     // Validate email
     const email = document.getElementById('email');
-    if (email.value.trim() && !email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    if (email && email.value.trim() && !email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       email.classList.add('invalid');
       const errEmail = document.getElementById('error-email');
       if (errEmail) { errEmail.textContent = 'Format email tidak valid'; errEmail.classList.add('visible'); }
-      valid = false;
-    }
-  }
-
-  if (step === 3) {
-    const posisi = document.getElementById('posisi_dilamar');
-    const errPosisi = document.getElementById('error-posisi_dilamar');
-    if (!posisi.value.trim()) {
-      posisi.classList.add('invalid');
-      if (errPosisi) { errPosisi.textContent = 'Posisi yang dilamar wajib diisi'; errPosisi.classList.add('visible'); }
-      valid = false;
-    }
-
-    // Validasi Pasangan Wajib
-    const arrPasanganIds = ['pasangan_nama', 'pasangan_pekerjaan', 'pasangan_perusahaan', 'pasangan_telp'];
-    arrPasanganIds.forEach(id => {
-      const field = document.getElementById(id);
-      const errField = document.getElementById(`error-${id}`);
-      if (!field.value.trim()) {
-        field.classList.add('invalid');
-        if (errField) { errField.textContent = 'Field ini wajib diisi'; errField.classList.add('visible'); }
-        valid = false;
-      }
-    });
-
-    // Validasi Kontak Darurat Tambahan Wajib
-    const arrDaruratIds = ['darurat_telp_rumah', 'darurat_telp_kantor', 'darurat_hp'];
-    arrDaruratIds.forEach(id => {
-      const field = document.getElementById(id);
-      const errField = document.getElementById(`error-${id}`);
-      if (!field.value.trim()) {
-        field.classList.add('invalid');
-        if (errField) { errField.textContent = 'Nomor telepon wajib diisi'; errField.classList.add('visible'); }
-        valid = false;
-      }
-    });
-
-    const txtTtd = document.getElementById('tanda_tangan');
-    const errTtd = document.getElementById('error-tanda_tangan');
-    if (!txtTtd.value.trim()) {
-      txtTtd.classList.add('invalid');
-      if (errTtd) { errTtd.textContent = 'Nama lengkap tanda tangan wajib diisi'; errTtd.classList.add('visible'); }
-      valid = false;
-    }
-
-    const tglTtd = document.getElementById('tanggal_ttd');
-    const errTglTtd = document.getElementById('error-tanggal_ttd');
-    if (!tglTtd.value.trim()) {
-      tglTtd.classList.add('invalid');
-      if (errTglTtd) { errTglTtd.textContent = 'Tanggal tanda tangan wajib diisi'; errTglTtd.classList.add('visible'); }
       valid = false;
     }
   }
@@ -353,28 +288,28 @@ function addPendidikan() {
     <div class="form-grid">
       <div class="form-group full-width">
         <label>Nama Sekolah / Institusi / Universitas</label>
-        <input type="text" name="pendidikan_sekolah_${index}" placeholder="Nama sekolah/universitas">
+        <input type="text" name="pendidikan_sekolah_${index}" placeholder="Nama sekolah/universitas" required>
       </div>
       <div class="form-group">
         <label>Dari (Tahun)</label>
-        <input type="text" name="pendidikan_dari_${index}" placeholder="Contoh: 2010">
+        <input type="text" name="pendidikan_dari_${index}" placeholder="Contoh: 2010" required>
       </div>
       <div class="form-group">
         <label>Ke (Tahun)</label>
-        <input type="text" name="pendidikan_ke_${index}" placeholder="Contoh: 2013">
+        <input type="text" name="pendidikan_ke_${index}" placeholder="Contoh: 2013" required>
       </div>
       <div class="form-group full-width" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
         <div>
           <label>Jurusan</label>
-          <input type="text" name="pendidikan_jurusan_${index}" placeholder="Jurusan">
+          <input type="text" name="pendidikan_jurusan_${index}" placeholder="Jurusan" required>
         </div>
         <div>
           <label>Gelar</label>
-          <input type="text" name="pendidikan_gelar_${index}" placeholder="Gelar">
+          <input type="text" name="pendidikan_gelar_${index}" placeholder="Gelar" required>
         </div>
         <div>
           <label>IPK</label>
-          <input type="text" name="pendidikan_ipk_${index}" placeholder="IPK">
+          <input type="text" name="pendidikan_ipk_${index}" placeholder="IPK" required>
         </div>
       </div>
     </div>
@@ -394,17 +329,17 @@ function addBahasa() {
   tr.dataset.index = index;
   tr.innerHTML = `
     <td style="padding:8px; border:1px solid var(--border);">
-      <input type="text" name="bahasa_nama_${index}" placeholder="Bahasa" style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;">
+      <input type="text" name="bahasa_nama_${index}" placeholder="Bahasa" style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;" required>
     </td>
     <td style="padding:8px; border:1px solid var(--border);">
-      <select name="bahasa_bicara_${index}" style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;">
+      <select name="bahasa_bicara_${index}" style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;" required>
         <option value="A - Bagus / Fasih">A - Bagus / Fasih</option>
         <option value="B - Rata-Rata" selected>B - Rata-Rata</option>
         <option value="C - Lemah">C - Lemah</option>
       </select>
     </td>
     <td style="padding:8px; border:1px solid var(--border);">
-      <select name="bahasa_nulis_${index}" style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;">
+      <select name="bahasa_nulis_${index}" style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px; margin-bottom:0;" required>
         <option value="A - Bagus / Fasih">A - Bagus / Fasih</option>
         <option value="B - Rata-Rata" selected>B - Rata-Rata</option>
         <option value="C - Lemah">C - Lemah</option>
@@ -459,43 +394,43 @@ function addPengalaman() {
     <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
       <div class="form-group full-width">
         <label>Perusahaan :</label>
-        <input type="text" name="pengalaman_perusahaan_${index}" placeholder="Nama perusahaan">
+        <input type="text" name="pengalaman_perusahaan_${index}" placeholder="Nama perusahaan" required>
       </div>
       <div class="form-group full-width">
         <label>Posisi / Jabatan :</label>
-        <input type="text" name="pengalaman_jabatan_${index}" placeholder="Jabatan Anda">
+        <input type="text" name="pengalaman_jabatan_${index}" placeholder="Jabatan Anda" required>
       </div>
       <div class="form-group">
         <label>BULAN / TAHUN (Dari) :</label>
-        <input type="month" name="pengalaman_mulai_${index}">
+        <input type="month" name="pengalaman_mulai_${index}" required>
       </div>
       <div class="form-group">
         <label>BULAN / TAHUN (Ke) :</label>
-        <input type="month" name="pengalaman_selesai_${index}">
+        <input type="month" name="pengalaman_selesai_${index}" required>
       </div>
       <div class="form-group full-width">
         <label>Alamat :</label>
-        <textarea name="pengalaman_alamat_${index}" rows="2" placeholder="Alamat Perusahaan"></textarea>
+        <textarea name="pengalaman_alamat_${index}" rows="2" placeholder="Alamat Perusahaan" required></textarea>
       </div>
       <div class="form-group full-width">
         <label>Telp :</label>
-        <input type="text" name="pengalaman_telp_${index}" placeholder="Nomor Telepon Perusahaan">
+        <input type="text" name="pengalaman_telp_${index}" placeholder="Nomor Telepon Perusahaan" required>
       </div>
       <div class="form-group full-width">
         <label>Kesimpulan Tugas dan Tanggung Jawab :</label>
-        <textarea name="pengalaman_tugas_${index}" rows="3" placeholder="Ringkasan tugas..."></textarea>
+        <textarea name="pengalaman_tugas_${index}" rows="3" placeholder="Ringkasan tugas..." required></textarea>
       </div>
       <div class="form-group">
         <label>Gaji Dimulai :</label>
-        <input type="text" name="pengalaman_gaji_mulai_${index}" placeholder="Contoh: 4.000.000" onkeyup="this.value = formatRupiah(this.value)">
+        <input type="text" name="pengalaman_gaji_mulai_${index}" placeholder="Contoh: 4.000.000" onkeyup="this.value = formatRupiah(this.value)" required>
       </div>
       <div class="form-group">
         <label>Gaji Terakhir :</label>
-        <input type="text" name="pengalaman_gaji_akhir_${index}" placeholder="Contoh: 6.000.000" onkeyup="this.value = formatRupiah(this.value)">
+        <input type="text" name="pengalaman_gaji_akhir_${index}" placeholder="Contoh: 6.000.000" onkeyup="this.value = formatRupiah(this.value)" required>
       </div>
       <div class="form-group full-width">
         <label>Alasan mengundurkan diri/meninggalkan pekerjaan :</label>
-        <textarea name="pengalaman_alasan_${index}" rows="2" placeholder="Alasan Anda keluar..."></textarea>
+        <textarea name="pengalaman_alasan_${index}" rows="2" placeholder="Alasan Anda keluar..." required></textarea>
       </div>
     </div>
   `;
@@ -524,19 +459,19 @@ function addKeluarga() {
     <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
       <div class="form-group full-width">
         <label>Nama</label>
-        <input type="text" name="keluarga_nama_${index}" placeholder="Nama anggota keluarga">
+        <input type="text" name="keluarga_nama_${index}" placeholder="Nama anggota keluarga" required>
       </div>
       <div class="form-group">
         <label>Hubungan</label>
-        <input type="text" name="keluarga_hubungan_${index}" placeholder="Orang tua/suami/istri/anak">
+        <input type="text" name="keluarga_hubungan_${index}" placeholder="Orang tua/suami/istri/anak" required>
       </div>
       <div class="form-group">
         <label>Usia</label>
-        <input type="number" name="keluarga_usia_${index}" placeholder="Contoh: 45">
+        <input type="number" name="keluarga_usia_${index}" placeholder="Contoh: 45" required>
       </div>
       <div class="form-group full-width">
         <label>Pekerjaan</label>
-        <input type="text" name="keluarga_pekerjaan_${index}" placeholder="Pekerjaan saat ini">
+        <input type="text" name="keluarga_pekerjaan_${index}" placeholder="Pekerjaan saat ini" required>
       </div>
       <div class="form-group full-width" style="margin-top:8px;">
         <label style="margin-bottom:8px; display:block;">Dibawah dukungan Anda?</label>
